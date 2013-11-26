@@ -1,0 +1,1 @@
+OAmodule.exports = require('./lib/wufoo');
