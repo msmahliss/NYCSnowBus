@@ -1,164 +1,165 @@
-addEvent(window, 'load', initForm);
+/**
+ * Main Wufoo API Wrapper Object.
+ */
+var util = require("util");
+var request = require("request");
+var utils = require("./utils.js");
+var Generics = require("./generics.js");
+var WebHook = require("./webhook.js");
+var GenericEntity = Generics.GenericEntity;
+var GenericParentEntity = Generics.GenericParentEntity;
 
-var highlight_array = new Array();
+module.exports = Wufoo;
 
-function initForm(){
-	initializeFocus();
-	var activeForm = document.getElementsByTagName('form')[0];
-	addEvent(activeForm, 'submit', disableSubmitButton);
-	ifInstructs();
-	showRangeCounters();
+/**
+ * Constructor.
+ * @param {String} account Wufoo account name / subdomain
+ * @param {String} apiKey Wufoo account API key
+ */
+function Wufoo(account, apiKey) {
+   this.account = account;
+   this.url = "https://"+account+".wufoo.com/api/v3/";
+   this.apiKey = apiKey;
 }
 
-function disableSubmitButton() {
-	document.getElementById('saveForm').disabled = true;
+
+// get all the forms for this account/subdomain.
+Wufoo.prototype.getForms = function(fn) {
+   this._getObjects("forms", fn, "Forms", Form);
 }
 
-// for radio and checkboxes, they have to be cleared manually, so they are added to the
-// global array highlight_array so we dont have to loop through the dom every time.
-function initializeFocus(){
-	var fields = getElementsByClassName(document, "*", "field");
-	
-	for(i = 0; i < fields.length; i++) {
-		if(fields[i].type == 'radio' || fields[i].type == 'checkbox') {
-			fields[i].onclick = function() {highlight(this, 4);};
-			fields[i].onfocus = function() {highlight(this, 4);};
-		}
-		else if(fields[i].className.match('addr') || fields[i].className.match('other')) {
-			fields[i].onfocus = function(){highlight(this, 3);};
-		}
-		else {
-			fields[i].onfocus = function(){highlight(this, 2); };
-		}
-	}
+// get the form given the id/hash.
+Wufoo.prototype.getForm = function(id, fn) {
+   this._getObjects("forms/" + id, fn, "Forms", Form, true);
 }
 
-function highlight(el, depth){
-	if(depth == 2){var fieldContainer = el.parentNode.parentNode;}
-	if(depth == 3){var fieldContainer = el.parentNode.parentNode.parentNode;}
-	if(depth == 4){var fieldContainer = el.parentNode.parentNode.parentNode.parentNode;}
-	
-	addClassName(fieldContainer, 'focused', true);
-	var focusedFields = getElementsByClassName(document, "*", "focused");
-	
-	for(i = 0; i < focusedFields.length; i++) {
-		if(focusedFields[i] != fieldContainer){
-			removeClassName(focusedFields[i], 'focused');
-		}
-	}
+// get all the form entries given the form id/hash.
+Wufoo.prototype.getFormEntries = function(path, fn) {
+   this._getObjects(path, fn, "Entries", filter, GenericEntity);
 }
 
-function ifInstructs(){
-	var container = document.getElementById('public');
-	if(container){
-		removeClassName(container,'noI');
-		var instructs = getElementsByClassName(document,"*","instruct");
-		if(instructs == ''){
-			addClassName(container,'noI',true);
-		}
-		if(container.offsetWidth <= 450){
-			addClassName(container,'altInstruct',true);
-		}
-	}
+Wufoo.prototype.getFilterEntries = function(id, filter, fn) {
+   this._getObjects(id, fn, "Entries", GenericEntity);
 }
 
-function showRangeCounters(){
-	counters = getElementsByClassName(document, "em", "currently");
-	for(i = 0; i < counters.length; i++) {
-		counters[i].style.display = 'inline';
-	}
+// get all the reports for this account/subdomain.
+Wufoo.prototype.getReports = function(fn) {
+   this._getObjects("reports", fn, "Reports", Report);
 }
 
-function validateRange(ColumnId, RangeType) {
-	if(document.getElementById('rangeUsedMsg'+ColumnId)) {
-		var field = document.getElementById('Field'+ColumnId);
-		var msg = document.getElementById('rangeUsedMsg'+ColumnId);
-
-		switch(RangeType) {
-			case 'character':
-				msg.innerHTML = field.value.length;
-				break;
-				
-			case 'word':
-				var val = field.value;
-				val = val.replace(/\n/g, " ");
-				var words = val.split(" ");
-				var used = 0;
-				for(i =0; i < words.length; i++) {
-					if(words[i].replace(/\s+$/,"") != "") used++;
-				}
-				msg.innerHTML = used;
-				break;
-				
-			case 'digit':
-				msg.innerHTML = field.value.length;
-				break;
-		}
-	}
+// get the report given the report id.
+Wufoo.prototype.getReport = function(id, fn) {
+   this._getObjects("reports/" + id, fn, "Reports", Report, true);
 }
 
-/*--------------------------------------------------------------------------*/
-
-//http://www.robertnyman.com/2005/11/07/the-ultimate-getelementsbyclassname/
-function getElementsByClassName(oElm, strTagName, strClassName){
-	var arrElements = (strTagName == "*" && oElm.all)? oElm.all : oElm.getElementsByTagName(strTagName);
-	var arrReturnElements = new Array();
-	strClassName = strClassName.replace(/\-/g, "\\-");
-	var oRegExp = new RegExp("(^|\\s)" + strClassName + "(\\s|$)");
-	var oElement;
-	for(var i=0; i<arrElements.length; i++){
-		oElement = arrElements[i];		
-		if(oRegExp.test(oElement.className)){
-			arrReturnElements.push(oElement);
-		}	
-	}
-	return (arrReturnElements)
+ // get all the form entries given the report id/hash.
+Wufoo.prototype.getReportEntries = function(id, fn) {
+   this._getObjects("reports/" + id + "/entries", fn, "Entries", GenericEntity);
 }
 
-//http://www.bigbold.com/snippets/posts/show/2630
-function addClassName(objElement, strClass, blnMayAlreadyExist){
-   if ( objElement.className ){
-      var arrList = objElement.className.split(' ');
-      if ( blnMayAlreadyExist ){
-         var strClassUpper = strClass.toUpperCase();
-         for ( var i = 0; i < arrList.length; i++ ){
-            if ( arrList[i].toUpperCase() == strClassUpper ){
-               arrList.splice(i, 1);
-               i--;
-             }
-           }
+// get the form fields given the form id/hash.
+Wufoo.prototype.getFields = function(id, fn) {
+   this._getObjects("forms/" + id + "/fields", fn, "Fields", GenericEntity);
+}
+
+// get the widgets from wufoo given the reportid/hash.
+Wufoo.prototype.getWidgets = function(id, fn) {
+   this._getObjects("reports/" + id + "/widgets", fn, "Widgets", GenericEntity);
+}
+
+// get form comments given form id/hash
+Wufoo.prototype.getComments = function(id, fn) {
+   this._getObjects("forms/" + id + "/comments", fn, "Comments", GenericEntity);
+}
+
+// get the count for the comments of a form given the id/hash.
+Wufoo.prototype.getCommentCount = function(id, fn) {
+   this._getMethod("forms/" + id + "/comments/count", function(err, json) {
+      fn(err, Number(json.Count));
+   });
+}
+
+// returns the WebHook object
+Wufoo.prototype.webhook = function() {
+   if (this.webhookCache == undefined) this.webhookCache = new WebHook(this);
+   return this.webhookCache;
+}
+
+// helper method for doing a get.
+Wufoo.prototype.get = function (uri, fn) {
+   this.request("GET", uri, fn);
+}
+
+// This is a utility method to make API calls to Wufoo. i.e. https://{subdomain}.wufoo.com/api/v3
+// It takes care of authentication. Callback function will receive two parameters the http error if any and the object representation of the json returned from Wufoo.
+// method: GET, POST, PUT, etc.
+//    uri: full uri
+//     fn: callback function.
+Wufoo.prototype.request = function(method, uri, params, fn) {
+   console.log(uri);
+   var options = {
+      uri: uri,
+      method: method.toUpperCase(),
+      headers: {
+         "Authorization" : "Basic " + new Buffer(this.apiKey + ":footastic").toStrin("base64")
       }
-      arrList[arrList.length] = strClass;
-      objElement.className = arrList.join(' ');
    }
-   else{  
-      objElement.className = strClass;
-      }
+   
+   if (fn!=undefined && params !=undefined) options["form"] = params; // params for form post was passed in.
+   if (fn == undefined && params != undefined) fn = params; // no params was passed in. In which case it is fn callback.
+   
+   util.debug(method.toUpperCase() + " " + uri);
+   request(options, function(err, res, body) { 
+      if (err){util.debug(err);}
+      fn(err, JSON.parse(body));
+   });
 }
 
-//http://www.bigbold.com/snippets/posts/show/2630
-function removeClassName(objElement, strClass){
-   if ( objElement.className ){
-      var arrList = objElement.className.split(' ');
-      var strClassUpper = strClass.toUpperCase();
-      for ( var i = 0; i < arrList.length; i++ ){
-         if ( arrList[i].toUpperCase() == strClassUpper ){
-            arrList.splice(i, 1);
-            i--;
-         }
-      }
-      objElement.className = arrList.join(' ');
-   }
+// ----- internal helper methods. ------
+Wufoo.prototype._getObjects = function(path, fn, jsonType, klass, firstElm) {
+
+var self = this;
+   this.get(path,function(err,json) {
+   console.log("json." + jsonType);
+      objects =  utils.cloneObjects(eval("json." + jsonType), function(){return new klass(self);});
+      fn(err, (firstElm)? objects[0] : objects);
+   });
 }
 
-//http://ejohn.org/projects/flexible-javascript-events/
-function addEvent( obj, type, fn ) {
-  if ( obj.attachEvent ) {
-    obj["e"+type+fn] = fn;
-    obj[type+fn] = function() { obj["e"+type+fn]( window.event ) };
-    obj.attachEvent( "on"+type, obj[type+fn] );
-  } 
-  else{
-    obj.addEventListener( type, fn, false );	
-  }
+Wufoo.prototype._getMethod = function (method, fn) {
+   this.get(this._toUri(method), fn);
 }
+
+Wufoo.prototype._toUri = function(path) { 
+   return this.url + path + ".json" + ;
+}
+
+
+//---------- Form ----------
+util.inherits(Form, GenericParentEntity);
+function Form(wufoo) {
+   this.wufoo = wufoo;
+}
+
+Form.prototype.addWebhook = function(opt, fn) {
+   this.wufoo.webhook().add(this.hash, opt, fn);      
+}
+
+Form.prototype.deleteWebhook = function(hookid, fn) {
+   this.wufoo.webhook().delete(this.hash, hookid, fn);
+}
+
+//---------- Report --------
+util.inherits(Report, GenericParentEntity);
+function Report(wufoo){
+   this.wufoo = wufoo;
+}
+
+Report.prototype.getWidgets = function(fn) {
+   this._cacheOrFetch(this.linkWidgets, "Widgets", fn);
+}
+
+
+
+
+
