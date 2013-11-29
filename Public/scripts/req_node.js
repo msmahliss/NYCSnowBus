@@ -2,7 +2,7 @@ var request =require('request');
 var Wufoo  = require('wufoo');
 //var Filters = require('./userinfo');
 
-var wufoo = new Wufoo("nycbeachbus","7ZRQ-QX4Y-GS5Y-8PGF");
+var wufoo = new Wufoo('nycbeachbus','7ZRQ-QX4Y-GS5Y-8PGF');
 
 var path = 'https://nycbeachbus.wufoo.com/api/v3/forms/';
 var hash = 'z7x3q1';

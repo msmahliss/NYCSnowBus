@@ -126,7 +126,7 @@ Wufoo.prototype._getMethod = function (method, fn) {
 }
 
 Wufoo.prototype._toUri = function(path) { 
-   return this.url + path + ".json" + ;
+   return this.url + path + ".json";
 }
 
 
