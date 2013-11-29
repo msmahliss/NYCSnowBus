@@ -4,7 +4,6 @@ var http    = require('http');
 var https   = require('https');
 var request = require('request');
 var Wufoo  = require('wufoo');
-//var login = require('./login');
 
 var app = express();
 app.set('port', process.env.PORT || 8080);
@@ -16,7 +15,7 @@ var text = fs.readFileSync("index.html","utf-8")
 
 app.get('/api/wufoo',function(inputs, response) {
 
-var wufoo = new Wufoo("nycbeachbus","7ZRQ-QX4Y-GS5Y-8PGF");
+var wufoo = new Wufoo(process.env.WUFOO_DOMAIN,process.env.WUFOO_API_KEY);
 var path = 'https://nycbeachbus.wufoo.com/api/v3/forms/';
 var hash = 'q7ffpy71rcw52o';
 var filter = inputs.query.filter;
@@ -24,7 +23,9 @@ var filter = inputs.query.filter;
 wufoo.get(path+hash+'/entries.json'+'?'+filter,function(err,res){
 console.log("# of filtered responses: "+ res.Entries.length);
 for (var i=0; i<res.Entries.length; i++){
-    console.log(res.Entries[i].Field33 + ' ' + res.Entries[i].Field34);
+    console.log('Date: '+res.Entries[i].Field1);
+    console.log('Departure: '+res.Entries[i].Field8);
+    console.log('# seats: '+res.Entries[i].Field10);
 }
 
 if (err!=undefined){
