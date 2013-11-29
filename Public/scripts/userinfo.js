@@ -18,7 +18,6 @@ function CheckDate() {
 	} else {
              $('#title4').hide( "slow");
 	    }
-
 }
 
 

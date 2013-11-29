@@ -20,6 +20,7 @@ var path = 'https://nycbeachbus.wufoo.com/api/v3/forms/';
 var hash = 'q7ffpy71rcw52o';
 var filter = inputs.query.filter;
 
+console.log(path+hash+'/entries.json'+'?'+filter);
 wufoo.get(path+hash+'/entries.json'+'?'+filter,function(err,res){
 console.log("# of filtered responses: "+ res.Entries.length);
 for (var i=0; i<res.Entries.length; i++){
