@@ -4,27 +4,38 @@ $(document).ready(function(){
    $('#title4').hide();
 
    function CheckDate() {
-    var trav_m = $('#Field1-1');
-    var trav_d = $('#Field1-2');
-    var trav_y = $('#Field1');
-    var req_date =  new Date("'"+ trav_y.val() + '-' + trav_m.val() + '-' + trav_d.val()+"'");
-    var start = new Date('2013-12-06');
-    var end = new Date('2014-03-30');
-    var today = new Date();
-       var holidays = '';
+       var trav_m = $('#Field1-1').val();
+       console.log(trav_m.length);
+       if (trav_m.length==1) { trav_m='0'+trav_m;}
+       var trav_d = $('#Field1-2').val();
+       if (trav_d.length==1) { trav_d='0'+trav_d;}
+       var trav_y = $('#Field1').val();
+       var req_date =  (trav_y + '/' + trav_m + '/' + trav_d);
+       var req_day = new Date(req_date).getDay()
+       var start = '2013/12/13';
+       var end = '2014/03/30';
+       var holidays = ['2013/12/23','2013/12/24','2013/12/25','2013/12/26','2013/12/30','2013/12/31','2014/01/01','2014/01/02','2014/01/20','2014/02/17','2014/02/18','2014/02/19','2014/02/20'];
 
-if ((req_date<start)||(req_date>end)) {
-           $('#title4').show( "slow");
-} else if ((req_date.getDay()!=5)&&(req_date.getDay()!=6)&&(req_date.getDay()!=0)){
-   $('#title4').show( "slow");
-   }
-else if (req_date<today) {
-           $('#title4').show( "slow");
-} else {
-            $('#title4').hide( "slow");
-console.log ('Checking Wufoo');
-    GetFilters();
-}
+       function CheckHolidays(list, val) {
+	   for (var i = 0; i < list.length; i++) {
+               if (list[i] == val) {		   
+		   console.log(val+' is a holiday!');
+	       return true; }
+	   }
+	   return false;
+       }
+  
+       if ((req_date<start)||(req_date>end)) {	
+	   console.log('Start '+start+' / End '+end+' / Requested '+req_date);
+	   $('#title4').show( "slow");	 
+       } else if ((req_day!=5)&&(req_day!=6)&&(req_day!=0)&&(!CheckHolidays(holidays, req_date))){
+	   console.log('not a holiday OR weekend');
+	   $('#title4').show( "slow");	 
+     }
+       else {	  
+	   $('#title4').hide( "slow");
+	   GetFilters();
+       }
    }
 
    function NotifyUser(Wufoo) {
@@ -114,6 +125,8 @@ console.log ('Checking Wufoo');
 	   for (var i=max+1; i<=req_seats;i++){
 	       $('#Field11').append('<option value="'+i+'">'+i+'</option>');
 	   }
+
+       
    }              
 
     $('input[name=Field8]:radio', '#form38').change(CheckDate);
