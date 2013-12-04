@@ -5,7 +5,7 @@ $(document).ready(function(){
 
    function CheckDate() {
        var trav_m = $('#Field1-1').val();
-       console.log(trav_m.length);
+//       console.log(trav_m.length);
        if (trav_m.length==1) { trav_m='0'+trav_m;}
        var trav_d = $('#Field1-2').val();
        if (trav_d.length==1) { trav_d='0'+trav_d;}
@@ -19,17 +19,17 @@ $(document).ready(function(){
        function CheckHolidays(list, val) {
 	   for (var i = 0; i < list.length; i++) {
                if (list[i] == val) {		   
-		   console.log(val+' is a holiday!');
+//		   console.log(val+' is a holiday!');
 	       return true; }
 	   }
 	   return false;
        }
   
        if ((req_date<start)||(req_date>end)) {	
-	   console.log('Start '+start+' / End '+end+' / Requested '+req_date);
+//	   console.log('Start '+start+' / End '+end+' / Requested '+req_date);
 	   $('#title4').show( "slow");	 
        } else if ((req_day!=5)&&(req_day!=6)&&(req_day!=0)&&(!CheckHolidays(holidays, req_date))){
-	   console.log('not a holiday OR weekend');
+//	   console.log('not a holiday OR weekend');
 	   $('#title4').show( "slow");	 
      }
        else {	  
@@ -86,7 +86,7 @@ $(document).ready(function(){
 	   } else if ((dep=='Williamsburg, Brooklyn')||(dep=='Astoria, Queens')) {
 	       rem_seats=WA_rem_seats;           
 	   }
-	   console.log('rem_seats '+ rem_seats);
+//  console.log('rem_seats '+ rem_seats);
 	   var max=0;
 	   $('#Field10 option').each(function(){
 	       max = Math.max($(this).val(), max);
