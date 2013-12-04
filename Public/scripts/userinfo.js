@@ -1,7 +1,21 @@
 
 $(document).ready(function(){
+    $('#title4').hide();
+    $('#title5').hide();
 
-   $('#title4').hide();
+    function HideFields(arr){
+	for (var i=0; i<arr.length; i++) {
+            $('#foli'+arr[i]).hide();
+	}
+    }
+
+    var hid_prc = ['309', '308' ,'307' ,'306' ,'305' ,'311','310'];
+    var hid_ID = ['31', '44' ,'35' ,'45' ,'33' ,'46']
+    var hid_agemsg = ['156','157','159'];
+
+//    HideFields(hid_prc);
+    HideFields(hid_ID);
+    HideFields(hid_agemsg);
 
    function CheckDate() {
        var trav_m = $('#Field1-1').val();
@@ -18,18 +32,14 @@ $(document).ready(function(){
 
        function CheckHolidays(list, val) {
 	   for (var i = 0; i < list.length; i++) {
-               if (list[i] == val) {		   
-//		   console.log(val+' is a holiday!');
-	       return true; }
+               if (list[i] == val) {  return true; }
 	   }
 	   return false;
        }
   
        if ((req_date<start)||(req_date>end)) {	
-//	   console.log('Start '+start+' / End '+end+' / Requested '+req_date);
 	   $('#title4').show( "slow");	 
        } else if ((req_day!=5)&&(req_day!=6)&&(req_day!=0)&&(!CheckHolidays(holidays, req_date))){
-//	   console.log('not a holiday OR weekend');
 	   $('#title4').show( "slow");	 
      }
        else {	  
@@ -76,7 +86,7 @@ $(document).ready(function(){
            $('label[for="Field8_2"]').attr('title','This pick-up location is sold out');
        }
 
-       var dep = $('input[name=Field8]:checked', '#form38').val();
+       var dep = $('input[name=Field8]:checked').val();
        var rem_seats='';
        
        if (dep!=undefined) {
@@ -97,7 +107,7 @@ $(document).ready(function(){
 	       $('#Field10').append('<option value="'+i+'">'+i+'</option>');
 	   }
        }
-}
+   }
 
    function GetFilters(){
       var path = 'https://nycbeachbus.wufoo.com/api/v3/forms/'
@@ -105,35 +115,93 @@ $(document).ready(function(){
       var trav_m = $('#Field1-1');
       var trav_d = $('#Field1-2');
       var trav_y = $('#Field1');
-      var date = trav_y.val() + '-' + trav_m.val() + '-' + trav_d.val();
-      //test filter for valid date & location of departure. if valid, hit Wufoo API
+      var date = trav_y.val() + '-' + trav_m.val() + '-' + trav_d.val();      
       var user_input = 'Filter1=Field1+Is_equal_to+'+date+'&pageSize=100';
          $.get('api/wufoo',{filter:user_input},NotifyUser);
    }
 
-   function SetTix(){
-       var req_seats = $('#Field10 option:selected').val();
+   function SetSeats(){
+       var req_seats = $(this).val();
+       var max=0;
 
-       $('#Field11 option').each(function(){
-	   if ($(this).val()>req_seats) { $(this).remove(); }
-       })
-
-	   var max=0;
        $('#Field11 option').each(function(){
 	   max = Math.max($(this).val(), max);
+	   if ($(this).val()>req_seats) { $(this).remove(); }
        })
+	   
 	   for (var i=max+1; i<=req_seats;i++){
 	       $('#Field11').append('<option value="'+i+'">'+i+'</option>');
 	   }
-
        
-   }              
+       if (req_seats>1){
+	   $('#foli31').show();
+	   $('#foli44').show();
+       } else {
+           $('#foli31').hide();
+           $('#foli44').hide();
+       }
+       if (req_seats>2) {
+	   $('#foli35').show();
+	   $('#foli45').show();
+       } else {
+           $('#foli35').hide();
+           $('#foli45').hide();
+       }
+       if (req_seats>3) {
+	   $('#foli33').show();
+	   $('#foli46').show();       
+       } else {
+           $('#foli33').hide();
+           $('#foli46').hide();
+       }
+       
+   }
 
-    $('input[name=Field8]:radio', '#form38').change(CheckDate);
+    function SetAge() {
+	var age_fld=['41','44','45','46']
+	for (i=0;i<age_fld.length;i++) {
+	    var age = $('#Field'+age_fld[i]).val();
+	    if (age=='0-6') {
+		$('#foli156').show();
+	    }    else if (age=='7-14') {
+		$('#foli157').show();
+	    }    else if (age=='15-17') {
+		$('#foli159').show();
+        }
+	}	
+    }
+
+    function SetTix() {	
+	var Prc = {Field165:'299',Field166:'309',Field167:'308',Field168:'307',Field169:'306',Field170:'305',Field171:'311',Field172:'310'};
+/*	var num_bus =$('input[name="Field165"]:checked').val();
+        var num_bus_l =$('input[name="Field166"]:checked').val();
+        var num_bus_e =$('input[name="Field167"]:checked').val();
+        var num_bus_l_e =$('input[name="Field168"]:checked').val();
+        var num_bus_all =$('input[name="Field169"]:checked').val();
+        var num_bus_allbeg =$('input[name="Field170"]:checked').val();
+        var num_bus_snow =$('input[name="Field171"]:checked').val();
+	var num_bus_coaster =$('input[name="Field172"]:checked').val();
+*/
+	var Pout = eval('Prc.'+this.name);
+	var num_sel =$('input[name="'+this.name+'"]:checked').val();
+	$('input[name="Field'+Pout+'"][value="'+num_sel+'"]').prop('checked',true);
+    }
+
+    $('input[name=Field8]:radio').change(CheckDate);
     $('#Field1-1').keyup(CheckDate);
     $('#Field1-2').keyup(CheckDate);
     $('#Field1').keyup(CheckDate);
-    $('#Field10').change(SetTix);
+    $('#Field10').change(SetSeats);
+    var table_fld = ['165', '166', '167', '168', '169', '170', '171', '172'];
+    for (var f=0; f<table_fld.length; f++) {        
+	$('input[name="Field'+table_fld[f]+'"]:radio').change(SetTix);
+    }
+
+    $('#Field41').change(SetAge);
+    $('#Field44').change(SetAge);
+    $('#Field45').change(SetAge);
+    $('#Field46').change(SetAge);
+
 });
 
 

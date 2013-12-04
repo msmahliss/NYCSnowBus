@@ -25,9 +25,7 @@ console.log(path+hash+'/entries.json'+'?'+filter);
 wufoo.get(path+hash+'/entries.json'+'?'+filter,function(err,res){
 console.log("# of filtered responses: "+ res.Entries.length);
 for (var i=0; i<res.Entries.length; i++){
-    console.log('Date: '+res.Entries[i].Field1);
-    console.log('Departure: '+res.Entries[i].Field8);
-    console.log('# seats: '+res.Entries[i].Field10);
+    console.log('Date: '+res.Entries[i].Field1+' / Depart: '+res.Entries[i].Field8 +' / # seats: '+res.Entries[i].Field10);
 }
 
 if (err!=undefined){
