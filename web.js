@@ -18,7 +18,7 @@ app.get('/api/wufoo',function(inputs, response) {
 //var wufoo = new Wufoo(process.env.WUFOO_DOMAIN,process.env.WUFOO_API_KEY);
 var wufoo = new Wufoo('nycbeachbus','7ZRQ-QX4Y-GS5Y-8PGF');
 var path = 'https://nycbeachbus.wufoo.com/api/v3/forms/';
-var hash = 'q7ffpy71rcw52o';
+var hash = 'qnckor21ndrj80';
 var filter = inputs.query.filter;
 
 console.log(path+hash+'/entries.json'+'?'+filter);

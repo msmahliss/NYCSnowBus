@@ -9,17 +9,16 @@ $(document).ready(function(){
 	}
     }
 
-    var hid_prc = ['309', '308' ,'307' ,'306' ,'305' ,'311','310'];
+    var hid_prc = ['299','309', '308' ,'307' ,'306' ,'305' ,'311','310'];
     var hid_ID = ['31', '44' ,'35' ,'45' ,'33' ,'46']
     var hid_agemsg = ['156','157','159'];
 
-//    HideFields(hid_prc);
+    HideFields(hid_prc);
     HideFields(hid_ID);
     HideFields(hid_agemsg);
 
    function CheckDate() {
        var trav_m = $('#Field1-1').val();
-//       console.log(trav_m.length);
        if (trav_m.length==1) { trav_m='0'+trav_m;}
        var trav_d = $('#Field1-2').val();
        if (trav_d.length==1) { trav_d='0'+trav_d;}
@@ -56,19 +55,25 @@ $(document).ready(function(){
        var Entries = Wufoo.Entries;
        var DU_num_booked = 0;
        var WA_num_booked = 0;
+       var DU_num_equip = 0;
+       var WA_num_equip = 0;
 
        for (i=0;i<Entries.length;i++ ){
 	   if ((Entries[i].Field8=='Downtown, Brooklyn')||(Entries[i].Field8=='Union Square, Manhattan')){
-	   DU_num_booked += parseFloat(Entries[i].Field10);	  
+	       DU_num_booked += parseFloat(Entries[i].Field10);	  
+	       DU_num_equip += parseFloat(Entries[i].Field11);
 	   }   else if ((Entries[i].Field8=='Williamsburg, Brooklyn')||(Entries[i].Field8=='Astoria, Queens')){
-	   WA_num_booked += parseFloat(Entries[i].Field10);	                 
+	       WA_num_booked += parseFloat(Entries[i].Field10);
+	       WA_num_equip += parseFloat(Entries[i].Field11);
 	   }
        };
 
        var DU_rem_seats = 35-DU_num_booked;
        var WA_rem_seats = 35-WA_num_booked;
-       //console.log('book seats: '+num_booked+' / rem seats: '+rem_seats);
-       
+       var DU_rem_equip = 20-DU_num_equip;
+       var WA_rem_equip = 20-WA_num_equip;
+
+              
        if (DU_rem_seats<=0) {  
 	   $('#Field8_0').attr('disabled', true);	   
            $('#Field8_3').attr('disabled', true);
@@ -88,24 +93,37 @@ $(document).ready(function(){
 
        var dep = $('input[name=Field8]:checked').val();
        var rem_seats='';
+       var rem_equip='';
        
        if (dep!=undefined) {
 
 	   if ((dep=='Downtown, Brooklyn')||(dep=='Union Square, Manhattan')) {
 	       rem_seats=DU_rem_seats;           
+	       rem_equip=DU_rem_equip;
 	   } else if ((dep=='Williamsburg, Brooklyn')||(dep=='Astoria, Queens')) {
-	       rem_seats=WA_rem_seats;           
+	       rem_seats=WA_rem_seats;
+               rem_equip=WA_rem_equip;
 	   }
 //  console.log('rem_seats '+ rem_seats);
 	   var max=0;
+	   var max_e=0;
 	   $('#Field10 option').each(function(){
 	       max = Math.max($(this).val(), max);
 	       if ($(this).val()>rem_seats) { $(this).remove(); }
 	   })
+           $('#Field11 option').each(function(){
+               max_e = Math.max($(this).val(), max_e);
+               if ($(this).val()>rem_equip) { $(this).remove(); }
+           })
+
 	   var limit = Math.min(4,rem_seats);
 	   for (var i=max+1; i<=limit;i++){
 	       $('#Field10').append('<option value="'+i+'">'+i+'</option>');
 	   }
+           var limit_e = Math.min(4,rem_equip);
+           for (var i=max_e+1; i<=limit_e;i++){
+               $('#Field11').append('<option value="'+i+'">'+i+'</option>');
+           }
        }
    }
 
@@ -154,7 +172,13 @@ $(document).ready(function(){
            $('#foli33').hide();
            $('#foli46').hide();
        }
-       
+
+       var rows =  $('table').find('tbody').find('tr');
+       console.log(rows.length);
+       //$('table>tbody>tr>td').each(function() {
+	//   console.log('hi');
+//       })
+	          
    }
 
     function SetAge() {
@@ -185,6 +209,7 @@ $(document).ready(function(){
 	var Pout = eval('Prc.'+this.name);
 	var num_sel =$('input[name="'+this.name+'"]:checked').val();
 	$('input[name="Field'+Pout+'"][value="'+num_sel+'"]').prop('checked',true);
+	
     }
 
     $('input[name=Field8]:radio').change(CheckDate);
