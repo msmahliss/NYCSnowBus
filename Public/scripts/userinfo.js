@@ -37,9 +37,11 @@ $(document).ready(function(){
        }
   
        if ((req_date<start)||(req_date>end)) {	
-	   $('#title4').show( "slow");	 
+	   $('#title4').show( "slow");
+       $('input[name=Field8]:radio').attr('disabled', true);	 
        } else if ((req_day!=5)&&(req_day!=6)&&(req_day!=0)&&(!CheckHolidays(holidays, req_date))){
 	   $('#title4').show( "slow");	 
+       $('input[name=Field8]:radio').attr('disabled', true);
      }
        else {	  
 	   $('#title4').hide( "slow");
@@ -52,6 +54,7 @@ $(document).ready(function(){
        $('input[name=Field8]:radio').each(function(){
 	   $( 'label[for="' + this.id + '"]').removeAttr('title');
        })
+
        var Entries = Wufoo.Entries;
        var DU_num_booked = 0;
        var WA_num_booked = 0;
@@ -139,6 +142,10 @@ $(document).ready(function(){
    }
 
    function SetSeats(){
+       $('table>tbody>tr>td').each(function() {
+        $(this).find('input').attr('disabled', false);
+       })
+
        var req_seats = $(this).val();
        var max=0;
 
@@ -173,11 +180,13 @@ $(document).ready(function(){
            $('#foli46').hide();
        }
 
-       var rows =  $('table').find('tbody').find('tr');
-       console.log(rows.length);
-       //$('table>tbody>tr>td').each(function() {
-	//   console.log('hi');
-//       })
+       $('table>tbody>tr>td').each(function() {
+	var now=   $(this).find('input');
+	  if (now.val()>req_seats) {
+	   now.attr('disabled', true);
+           now.prop('checked', false );
+	  }
+       })
 	          
    }
 
@@ -205,13 +214,31 @@ $(document).ready(function(){
         var num_bus_allbeg =$('input[name="Field170"]:checked').val();
         var num_bus_snow =$('input[name="Field171"]:checked').val();
 	var num_bus_coaster =$('input[name="Field172"]:checked').val();
-*/
-	var Pout = eval('Prc.'+this.name);
-	var num_sel =$('input[name="'+this.name+'"]:checked').val();
-	$('input[name="Field'+Pout+'"][value="'+num_sel+'"]').prop('checked',true);
+
+	var req_seats=$('#Field10').val()
+	if (req_seats==1){
+	    var tot=0;
+	    $('table>tbody>tr>td').each(function() {
+		var now=   $(this).find('input:checked');
+		tot+=now.val();
+	    })
+		
+		if (tot>req_seats) {           
+		    $('table>tbody>tr>td').each(function() {
+			var row = $(this).find('input:checked');
+			var Pout = eval('Prc'+row.name);
+			$('input[name="Field'+Pout+'"][value="0"]').prop('checked',false);
+			row.prop('checked', false );		  
+		    })
+			}
+	    $(this).prop('checked',true);		  
+      	}     */
+	    var Pout = eval('Prc.'+this.name);
+	    var num_sel =$('input[name="'+this.name+'"]:checked').val();
+	    $('input[name="Field'+Pout+'"][value="'+num_sel+'"]').prop('checked',true);
 	
     }
-
+    
     $('input[name=Field8]:radio').change(CheckDate);
     $('#Field1-1').keyup(CheckDate);
     $('#Field1-2').keyup(CheckDate);
