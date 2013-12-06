@@ -17,9 +17,10 @@ app.get('/api/wufoo',function(inputs, response) {
 // var wufoo = new Wufoo(process.env.WUFOO_DOMAIN,process.env.WUFOO_API_KEY);
 var wufoo = new Wufoo('nycbeachbus','7ZRQ-QX4Y-GS5Y-8PGF');
 var path = 'https://nycbeachbus.wufoo.com/api/v3/reports/';
-//var hash = 'z10r6t1u0wan6k2';
+
+var hash = 'zsaxuro12v2avd';
 //var hash = 'qnckor21ndrj80'; //real form 
-var hash = 'zx97tfo15k868p'; //real report
+//var hash = 'zx97tfo15k868p'; //real report
 
 var filter = inputs.query.filter;
 

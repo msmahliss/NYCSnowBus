@@ -179,7 +179,7 @@ $(document).ready(function(){
                        })
 			   }	   	   
        } else {
-	   console.log ('No departure selected');
+//	   console.log ('No departure selected');
        }
 }
 
@@ -292,7 +292,6 @@ $(document).ready(function(){
 
     function FmtDates(dateText, inst) {
 	var pieces = dateText.split('/');
-	console.log(pieces[1] + '/ ' + pieces[0] + ' / ' + pieces[2]);
 	$('input[name=Field1-1]').val(pieces[0]);
 	$('input[name=Field1-2]').val(pieces[1]);
 	$('input[name=Field1]').val(pieces[2]);
