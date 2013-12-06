@@ -3,8 +3,10 @@ $(document).ready(function(){
     $('#title4').hide();
     $('#title5').hide();
     $('table').find('input').each(function() {      
-        $(this).attr('disabled', true);
-        $(this).prop('checked', false );
+	if ($(this).val()!=0){	   
+            $(this).attr('disabled', true);
+            $(this).prop('checked', false );
+	}
     })
 		
     function HideFields(arr){
@@ -19,10 +21,12 @@ $(document).ready(function(){
     }
     var hid_ID = ['31', '44' ,'35' ,'45' ,'33' ,'46']
     var hid_agemsg = ['156','157','159'];
+    var hid_promo = ['350','351' ,'353' ,'354'];
 
     HideFields(hid_prc);
     HideFields(hid_ID);
     HideFields(hid_agemsg);
+    HideFields(hid_promo);
 
     function CheckDate() {
 	var trav_m = $('#Field1-1').val();
@@ -56,29 +60,25 @@ $(document).ready(function(){
 		})
 		    
 		    $('table').find('input').each(function() {		
-			$(this).attr('disabled', true);
-			$(this).prop('checked', false );		
+			if ($(this).val()!=0) {
+			    $(this).attr('disabled', true);
+			    $(this).prop('checked', false );		
+			}
 		    }) 
 			}
 	else {	  
 	    $('#title4').hide( "slow");
             var req_seats=$('#Field10').val();	  
-
-            for (var i=1; i<=4;i++){
-		$('#Field10').append('<option value="'+i+'">'+i+'</option>');
-            }            
-            for (var i=1; i<=4;i++){
-		$('#Field11').append('<option value="'+i+'">'+i+'</option>');
-            }
-	    
+            	    
 	    $('table').find('input').each(function() {              
-		if ($(this).val()>req_seats) {		    
-                    $(this).attr('disabled', true);                
+		if ($(this).val()>req_seats) {		    		    
+			$(this).attr('disabled', true);                
+			$(this).prop('checked', false );		    
 		} else {
 		    $(this).attr('disabled', false);
 		}
             })
-		console.log('Checking Wufoo');
+		//console.log('Checking Wufoo');
 	    GetFilters();
 	}
     }
@@ -133,19 +133,20 @@ $(document).ready(function(){
        
        if (dep!=undefined) {	   
 	   if ((dep=='Downtown, Brooklyn')||(dep=='Union Square, Manhattan')) {
-	       rem_seats=DU_rem_seats;           
-	       rem_equip=DU_rem_equip;
+	       rem_seats=Math.max(0,DU_rem_seats);           
+	       rem_equip=Math.max(0,DU_rem_equip);
 	   } else if ((dep=='Williamsburg, Brooklyn')||(dep=='Astoria, Queens')) {
-	       rem_seats=WA_rem_seats;
-               rem_equip=WA_rem_equip;
+	       rem_seats=Math.max(0,WA_rem_seats);
+               rem_equip=Math.max(0,WA_rem_equip);
 	   }
-//  console.log('rem_seats '+ rem_seats);
+//	   console.log('rem_seats '+ rem_seats);
 	   var max=0;
 	   var max_e=0;
 	   $('#Field10 option').each(function(){
 	       max = Math.max($(this).val(), max);
 	       if ($(this).val()>rem_seats) { $(this).remove(); }
 	   })
+
            $('#Field11 option').each(function(){
                max_e = Math.max($(this).val(), max_e);
                if ($(this).val()>rem_equip) { $(this).remove(); }
@@ -159,12 +160,22 @@ $(document).ready(function(){
            for (var i=max_e+1; i<=limit_e;i++){
                $('#Field11').append('<option value="'+i+'">'+i+'</option>');
            }       
-       } else { console.log ('No departure selected');}
+
+	   var req_seats=$('#Field10').val();
+
+            $('table').find('input').each(function() {
+                if ($(this).val()>req_seats) {		    
+		    $(this).attr('disabled', true);
+		    $(this).prop('checked', false);		    
+                }
+            })
+
+       } else {
+	//   console.log ('No departure selected');
+       }
 }
 
-    function GetFilters(){
-	var path = 'https://nycbeachbus.wufoo.com/api/v3/forms/'
-	var hash = 'q7ffpy71rcw52o';
+    function GetFilters(){	
 	var trav_m = $('#Field1-1');
 	var trav_d = $('#Field1-2');
 	var trav_y = $('#Field1');
@@ -219,16 +230,25 @@ $(document).ready(function(){
 	    }
 	})
 
-	    var tot=0;
-        $('table').find('input:checked').each(function() {
-            tot+= parseFloat($(this).val());
-        })
-	    
-            if (tot>req_seats) {
-		$('table').find('input:checked').each(function() {
+            var tot=0;
+            $('table').find('input:checked').each(function() {
+                tot+= parseFloat($(this).val());
+            })
+
+        if (tot>req_seats) {
+            $('table').find('input:checked').each(function() {
+                if ($(this).val()!=0) {
                     $(this).prop('checked', false);
+                }
+            })        
+
+		$('table').find('input').each(function() {
+		    if ($(this).val()==0) {
+			$(this).prop('checked', true);
+		    }
 		})
-		    }		
+		    }
+
     }
     
     function SetTix() {	
@@ -254,9 +274,18 @@ $(document).ready(function(){
 	    
 	if (tot>req_seats) {                       
 	    $('table').find('input:checked').each(function() {		     
-		$(this).prop('checked', false);		  
+		if ($(this).val()!=0) {	
+		    $(this).prop('checked', false);		    
+		}		  
 	    })		
-	}
+	
+		$('table').find('input').each(function() {
+		    if ($(this).val()==0) {
+			$(this).prop('checked', true);
+            }
+		})
+	    }
+	
 	$(this).prop('checked',true);		  	
     }
 	  
