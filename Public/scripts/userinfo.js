@@ -67,18 +67,8 @@ $(document).ready(function(){
 		    }) 
 			}
 	else {	  
-	    $('#title4').hide( "slow");
-            var req_seats=$('#Field10').val();	  
-            	    
-	    $('table').find('input').each(function() {              
-		if ($(this).val()>req_seats) {		    		    
-			$(this).attr('disabled', true);                
-			$(this).prop('checked', false );		    
-		} else {
-		    $(this).attr('disabled', false);
-		}
-            })
-		//console.log('Checking Wufoo');
+	    $('#title4').hide( "slow");                       	    
+	    //console.log('Checking Wufoo');
 	    GetFilters();
 	}
     }
@@ -116,20 +106,20 @@ $(document).ready(function(){
            $('#Field8_3').attr('disabled', true);
 	   $('#Field8_0').prop('checked', false );
 	   $('#Field8_3').prop('checked', false );	  
-	   $('label[for="Field_0"]').attr('title','This pick-up location is sold out');
-           $('label[for="Field_3"]').attr('title','This pick-up location is sold out');
+	   $('label[for="Field_0"]').attr('title','Downtown pick up is sold out');
+           $('label[for="Field_3"]').attr('title','Union Square pick up is sold out');
        }
        if (WA_rem_seats<=0) {
            $('#Field8_1').attr('disabled', true);
            $('#Field8_2').attr('disabled', true);
            $('#Field8_1').prop('checked', false );
            $('#Field8_2').prop('checked', false );	  	 
-           $('label[for="Field8_1"]').attr('title','This pick-up location is sold out');
-           $('label[for="Field8_2"]').attr('title','This pick-up location is sold out');
+           $('label[for="Field8_1"]').attr('title','Williamsburg pick up is sold out');
+           $('label[for="Field8_2"]').attr('title','Astoria pick up is sold out');
        }
        
-       var rem_seats='';
-       var rem_equip='';
+       var rem_seats= 0;
+       var rem_equip= 0;
        
        if (dep!=undefined) {	   
 	   if ((dep=='Downtown, Brooklyn')||(dep=='Union Square, Manhattan')) {
@@ -169,9 +159,27 @@ $(document).ready(function(){
 		    $(this).prop('checked', false);		    
                 }
             })
-
+		
+		var tot=0;
+           $('table').find('input:checked').each(function() {
+               tot+= parseFloat($(this).val());
+           })
+	       
+               if (tot>req_seats) {
+		   $('table').find('input:checked').each(function() {
+                       if ($(this).val()!=0) {
+			   $(this).prop('checked', false);
+                       }
+		   })        
+		       
+                       $('table').find('input').each(function() {
+			   if ($(this).val()==0) {
+                               $(this).prop('checked', true);
+			   }
+                       })
+			   }	   	   
        } else {
-	//   console.log ('No departure selected');
+	   console.log ('No departure selected');
        }
 }
 
@@ -252,15 +260,7 @@ $(document).ready(function(){
     }
     
     function SetTix() {	
-/*	var Prc = {Field165:'299',Field166:'309',Field167:'308',Field168:'307',Field169:'306',Field170:'305',Field171:'311',Field172:'310'};
-	var num_bus =$('input[name="Field165"]:checked').val();
-        var num_bus_l =$('input[name="Field166"]:checked').val();
-        var num_bus_e =$('input[name="Field167"]:checked').val();
-        var num_bus_l_e =$('input[name="Field168"]:checked').val();
-        var num_bus_all =$('input[name="Field169"]:checked').val();
-        var num_bus_allbeg =$('input[name="Field170"]:checked').val();
-        var num_bus_snow =$('input[name="Field171"]:checked').val();
-	var num_bus_coaster =$('input[name="Field172"]:checked').val();
+/*	var Prc = {Field165:'299',Field166:'309',Field167:'308',Field168:'307',Field169:'306',Field170:'305',Field171:'311',Field172:'310'};	
         var Pout = eval('Prc.'+this.name);
         var num_sel =$('input[name="'+this.name+'"]:checked').val();
         $('input[name="Field'+Pout+'"][value="'+num_sel+'"]').prop('checked',true);
@@ -288,13 +288,29 @@ $(document).ready(function(){
 	
 	$(this).prop('checked',true);		  	
     }
+
+
+    function FmtDates(dateText, inst) {
+	var pieces = dateText.split('/');
+	console.log(pieces[1] + '/ ' + pieces[0] + ' / ' + pieces[2]);
+	$('input[name=Field1-1]').val(pieces[0]);
+	$('input[name=Field1-2]').val(pieces[1]);
+	$('input[name=Field1]').val(pieces[2]);
+    }
+    
 	  
+    $('#cal').datepicker({
+	showOn: "button",
+	buttonImage: "images/calendar.png",
+	buttonImageOnly: true,
+	buttonText: "",
+	onSelect: FmtDates})
+
     $('input[name=Field8]:radio').change(CheckDate);    
     $('div[name=Depart]').mouseenter(CheckDate);	
-    $('#foli1').blur(CheckDate);
-//   $('#Field1-1').mouseleave(CheckDate);
-    //$('#Field1-2').blur(CheckDate);
-//    $('#Field1').mouseleave(CheckDate);
+    $('#Field1_1').mouseleave(CheckDate);
+    $('#Field1-2').mouseleave(CheckDate);
+    $('#Field1').mouseleave(CheckDate);
     
     $('#Field10').change(SetSeats);
     var table_fld = ['165', '166', '167', '168', '169', '170', '171', '172'];
@@ -302,6 +318,7 @@ $(document).ready(function(){
 	$('input[name="Field'+table_fld[f]+'"]:radio').change(SetTix);
     }  
 });
+
 
 $(function() {
     $( document ).tooltip();
