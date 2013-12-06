@@ -308,10 +308,7 @@ $(document).ready(function(){
 
     $('input[name=Field8]:radio').change(CheckDate);    
     $('div[name=Depart]').mouseenter(CheckDate);	
-    $('#Field1_1').mouseleave(CheckDate);
-    $('#Field1-2').mouseleave(CheckDate);
-    $('#Field1').mouseleave(CheckDate);
-    
+    $('#foli1').mouseleave(CheckDate);    
     $('#Field10').change(SetSeats);
     var table_fld = ['165', '166', '167', '168', '169', '170', '171', '172'];
     for (var f=0; f<table_fld.length; f++) {        
