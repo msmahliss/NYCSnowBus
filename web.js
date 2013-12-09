@@ -18,20 +18,25 @@ app.get('/api/wufoo',function(inputs, response) {
 var wufoo = new Wufoo('nycbeachbus','7ZRQ-QX4Y-GS5Y-8PGF');
 var path = 'https://nycbeachbus.wufoo.com/api/v3/reports/';
 
-var hash = 'zsaxuro12v2avd';
+//var hash = 'zsaxuro12v2avd'; //MSH report
 //var hash = 'qnckor21ndrj80'; //real form 
-//var hash = 'zx97tfo15k868p'; //real report
+var hash = 'zx97tfo15k868p'; //real report
 
-var filter = inputs.query.filter;
-
-console.log(path+hash+'/entries.json'+'?'+filter);
-wufoo.get(path+hash+'/entries.json'+'?'+filter,function(err,res){
-console.log("# of filtered responses: "+ res.Entries.length);
-
+var date = inputs.query.filter;
+console.log(date);
+wufoo.get(path+hash+'/entries.json',function(err,res){
+var Entries = [];
+for (var i=0; i<res.Entries.length; i++) {
+    if (res.Entries[i].Field1==date)  {
+//	console.log('Date: '+res.Entries[i].Field1 + ' / Dep: '+res.Entries[i].Field8 +' / # Seats:'+ res.Entries[i].Field10);
+	Entries.push(res.Entries[i]);
+    }
+}
+    
 if (err!=undefined){
 response.send('Error:' + err);
 } else {
-response.send(res);
+response.send(Entries);
 }
 });
 });

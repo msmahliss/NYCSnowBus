@@ -8,6 +8,11 @@ $(document).ready(function(){
             $(this).prop('checked', false );
 	}
     })
+
+	var today=new Date();
+    $('#Field1-1').val(today.getMonth()+1);
+    $('#Field1-2').val(today.getDate());
+    $('#Field1').val(today.getFullYear());
 		
     function HideFields(arr){
 	for (var i=0; i<arr.length; i++) {
@@ -19,13 +24,11 @@ $(document).ready(function(){
     for (var n=313; n<=345; n++){
 	hid_prc.push(n.toString());
     }
-    var hid_ID = ['31', '44' ,'35' ,'45' ,'33' ,'46']
-    var hid_agemsg = ['156','157','159'];
+    var hid_ID = ['31', '44' ,'35' ,'45' ,'33' ,'46'];    
     var hid_promo = ['350','351' ,'353' ,'354'];
 
     HideFields(hid_prc);
     HideFields(hid_ID);
-    HideFields(hid_agemsg);
     HideFields(hid_promo);
 
     function CheckDate() {
@@ -73,13 +76,12 @@ $(document).ready(function(){
 	}
     }
     
-    function NotifyUser(Wufoo) {
+    function NotifyUser(Entries) {
 	$('input[name=Field8]:radio').attr('disabled', false); 
 	$('input[name=Field8]:radio').each(function(){
 	    $( 'label[for="' + this.id + '"]').removeAttr('title');
 	})
-
-	    var Entries = Wufoo.Entries;
+	  
 	var DU_num_booked = 0;
 	var WA_num_booked = 0;
 	var DU_num_equip = 0;
@@ -188,8 +190,8 @@ $(document).ready(function(){
 	var trav_d = $('#Field1-2');
 	var trav_y = $('#Field1');
 	var date = trav_y.val() + '-' + trav_m.val() + '-' + trav_d.val();      
-	var user_input = 'Filter1=Field1+Is_equal_to+'+date+'&pageSize=100';
-        $.get('api/wufoo',{filter:user_input},NotifyUser);
+//	var user_input = 'Filter1=Field1+Is_equal_to+'+date+'&pageSize=100';
+        $.get('api/wufoo',{filter:date},NotifyUser);
     }
     
     function SetSeats(){
@@ -295,7 +297,8 @@ $(document).ready(function(){
 	$('input[name=Field1-1]').val(pieces[0]);
 	$('input[name=Field1-2]').val(pieces[1]);
 	$('input[name=Field1]').val(pieces[2]);
-    }
+	CheckDate();
+ }
     
 	  
     $('#cal').datepicker({
@@ -307,7 +310,7 @@ $(document).ready(function(){
 
     $('input[name=Field8]:radio').change(CheckDate);    
     $('div[name=Depart]').mouseenter(CheckDate);	
-    $('#foli1').mouseleave(CheckDate);    
+//    $('#foli1').mouseleave(CheckDate);    
     $('#Field10').change(SetSeats);
     var table_fld = ['165', '166', '167', '168', '169', '170', '171', '172'];
     for (var f=0; f<table_fld.length; f++) {        
