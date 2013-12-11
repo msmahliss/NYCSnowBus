@@ -42,15 +42,17 @@ $(document).ready(function(){
 	var start = '2013/12/13';
 	var end = '2014/03/30';
 	var holidays = ['2013/12/23','2013/12/24','2013/12/25','2013/12/26','2013/12/30','2013/12/31','2014/01/01','2014/01/02','2014/01/20','2014/02/17','2014/02/18','2014/02/19','2014/02/20'];
-	
-	function CheckHolidays(list, val) {
+	var cancelled = ['2013/12/13','2013/12/15'];
+
+	function SpecDays(list, val) {
 	    for (var i = 0; i < list.length; i++) {
 		if (list[i] == val) {  return true; }
 	    }
 	    return false;
 	}
+
 			 
-	if (((req_date<start)||(req_date>end))||((req_day!=5)&&(req_day!=6)&&(req_day!=0)&&(!CheckHolidays(holidays, req_date)))){
+	if (((req_date<start)||(req_date>end))||((req_day!=5)&&(req_day!=6)&&(req_day!=0)&&(!SpecDays(holidays, req_date)))||(SpecDays(cancelled, req_date))){
 	    $('#title4').show( "slow");	 
 	    $('input[name=Field8]:radio').attr('disabled', true);
 	    
@@ -310,7 +312,9 @@ $(document).ready(function(){
 
     $('input[name=Field8]:radio').change(CheckDate);    
     $('div[name=Depart]').mouseenter(CheckDate);	
-//    $('#foli1').mouseleave(CheckDate);    
+    $('#Field1-1').change(CheckDate);
+    $('#Field1-2').change(CheckDate);
+    $('#Field1').change(CheckDate);    
     $('#Field10').change(SetSeats);
     var table_fld = ['165', '166', '167', '168', '169', '170', '171', '172'];
     for (var f=0; f<table_fld.length; f++) {        
