@@ -109,6 +109,15 @@ $(document).ready(function(){
 	var DU_rem_equip = 20-DU_num_equip;
 	var WA_rem_equip = 20-WA_num_equip;
         
+        var trav_m = $('#Field1-1').val();        
+        var trav_d = $('#Field1-2').val();        
+        var trav_y = $('#Field1').val();
+        var req_date =  (trav_y + trav_m + trav_d);
+        if (req_date='12142013'){
+            WA_rem_seats=0;
+            WA_rem_seats=0;
+        }
+
        var dep = $('input[name=Field8]:checked').val();
        if (DU_rem_seats<=0) {  
 	   $('#Field8_0').attr('disabled', true);	   
@@ -136,7 +145,7 @@ $(document).ready(function(){
 	       rem_equip=Math.max(0,DU_rem_equip);
 	   } else if ((dep=='Williamsburg, Brooklyn')||(dep=='Astoria, Queens')) {
 	       rem_seats=Math.max(0,WA_rem_seats);
-               rem_equip=Math.max(0,WA_rem_equip);
+               rem_equip=Math.max(0,WA_rem_equip);	       
 	   }
 //	   console.log('rem_seats '+ rem_seats);
 	   var max=0;
