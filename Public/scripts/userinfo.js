@@ -113,9 +113,9 @@ $(document).ready(function(){
         var trav_d = $('#Field1-2').val();        
         var trav_y = $('#Field1').val();
         var req_date =  (trav_y + trav_m + trav_d);
-        if (req_date='12142013'){
+        if (req_date==20131214){
             WA_rem_seats=0;
-            WA_rem_seats=0;
+            WA_rem_equip=0;	    
         }
 
        var dep = $('input[name=Field8]:checked').val();
