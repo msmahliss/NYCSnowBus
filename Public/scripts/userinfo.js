@@ -30,7 +30,12 @@ $(document).ready(function(){
     HideFields(hid_prc);
     HideFields(hid_ID);
     HideFields(hid_promo);
-
+    var start = '2013/12/13';
+    var end = '2014/03/30';
+    var holidays = ['2013/12/23','2013/12/24','2013/12/25','2013/12/26','2013/12/30','2013/12/31','2014/01/01','2014/01/02','2014/0\
+1/20','2014/02/17','2014/02/18','2014/02/19','2014/02/20'];
+    var cancelled = ['2013/12/13','2013/12/15'];
+    
     function CheckDate() {
 	var trav_m = $('#Field1-1').val();
 	if (trav_m.length==1) { trav_m='0'+trav_m;}
@@ -39,10 +44,6 @@ $(document).ready(function(){
 	var trav_y = $('#Field1').val();
 	var req_date =  (trav_y + '/' + trav_m + '/' + trav_d);
 	var req_day = new Date(req_date).getDay()
-	var start = '2013/12/13';
-	var end = '2014/03/30';
-	var holidays = ['2013/12/23','2013/12/24','2013/12/25','2013/12/26','2013/12/30','2013/12/31','2014/01/01','2014/01/02','2014/01/20','2014/02/17','2014/02/18','2014/02/19','2014/02/20'];
-	var cancelled = ['2013/12/13','2013/12/15'];
 
 	function SpecDays(list, val) {
 	    for (var i = 0; i < list.length; i++) {
@@ -51,8 +52,7 @@ $(document).ready(function(){
 	    return false;
 	}
 
-			 
-	if (((req_date<start)||(req_date>end))||((req_day!=5)&&(req_day!=6)&&(req_day!=0)&&(!SpecDays(holidays, req_date)))||(SpecDays(cancelled, req_date))){
+ 	if (((req_date<start)||(req_date>end))||((req_day!=5)&&(req_day!=6)&&(req_day!=0)&&(!SpecDays(holidays, req_date)))||(SpecDays(cancelled, req_date))){
 	    $('#title4').show( "slow");	 
 	    $('input[name=Field8]:radio').attr('disabled', true);
 	    
@@ -69,11 +69,16 @@ $(document).ready(function(){
 			    $(this).attr('disabled', true);
 			    $(this).prop('checked', false );		
 			}
-		    }) 
-			}
-	else {	  
-	    $('#title4').hide( "slow");                       	    
-	    //console.log('Checking Wufoo');
+		    })
+
+                       $('table').find('input').each(function() {
+                           if ($(this).val()==0) {
+                               $(this).prop('checked', true);
+                           }
+                       })
+
+			   }	else {	  
+	    $('#title4').hide( "slow");                       	    	    
 	    GetFilters();
 	}
     }
@@ -162,8 +167,11 @@ $(document).ready(function(){
 		    $(this).attr('disabled', true);
 		    $(this).prop('checked', false);		    
                 }
+                if ($(this).val()==0) {
+                    $(this).prop('checked', true);
+                }		
             })
-		
+	
 		var tot=0;
            $('table').find('input:checked').each(function() {
                tot+= parseFloat($(this).val());
@@ -263,38 +271,32 @@ $(document).ready(function(){
 
     }
     
-    function SetTix() {	
-/*	var Prc = {Field165:'299',Field166:'309',Field167:'308',Field168:'307',Field169:'306',Field170:'305',Field171:'311',Field172:'310'};	
-        var Pout = eval('Prc.'+this.name);
-        var num_sel =$('input[name="'+this.name+'"]:checked').val();
-        $('input[name="Field'+Pout+'"][value="'+num_sel+'"]').prop('checked',true);
-*/	
+    function SetTix() {		
 	var req_seats=$('#Field10').val()
 	
-	    var tot=0;
-	    $('table').find('input:checked').each(function() {		
-		tot+= parseFloat($(this).val());                	
-	    })			
+	var tot=0;
+	$('table').find('input:checked').each(function() {		
+	    tot+= parseFloat($(this).val());                	
+	})			
 	    
-	if (tot>req_seats) {                       
-	    $('table').find('input:checked').each(function() {		     
-		if ($(this).val()!=0) {	
-		    $(this).prop('checked', false);		    
-		}		  
-	    })		
-	
-		$('table').find('input').each(function() {
-		    if ($(this).val()==0) {
-			$(this).prop('checked', true);
-            }
-		})
-	    }
+	    if (tot>req_seats) {                       
+		$('table').find('input:checked').each(function() {		     
+		    if ($(this).val()!=0) {	
+			$(this).prop('checked', false);		    
+		    }		  
+		})		
+		    
+		    $('table').find('input').each(function() {
+			if ($(this).val()==0) {
+			    $(this).prop('checked', true);
+			}
+		    })
+			}
 	
 	$(this).prop('checked',true);		  	
     }
-
-
-    function FmtDates(dateText, inst) {
+        
+    function FmtDate(dateText, inst) {
 	var pieces = dateText.split('/');
 	$('input[name=Field1-1]').val(pieces[0]);
 	$('input[name=Field1-2]').val(pieces[1]);
@@ -308,7 +310,7 @@ $(document).ready(function(){
 	buttonImage: "images/calendar.png",
 	buttonImageOnly: true,
 	buttonText: "",
-	onSelect: FmtDates})
+	onSelect: FmtDate})
 
     $('input[name=Field8]:radio').change(CheckDate);    
     $('div[name=Depart]').mouseenter(CheckDate);	
