@@ -30,7 +30,7 @@ $(document).ready(function(){
     HideFields(hid_prc);
     HideFields(hid_ID);
     HideFields(hid_promo);
-    var start = '2013/12/13';
+    var today = today.getFullYear() + '/' +(today.getMonth()+ 1)+ '/'+today.getDate();    
     var end = '2014/03/30';
     var holidays = ['2013/12/23','2013/12/24','2013/12/25','2013/12/26','2013/12/30','2013/12/31','2014/01/01','2014/01/02','2014/0\
 1/20','2014/02/17','2014/02/18','2014/02/19','2014/02/20'];
@@ -52,7 +52,7 @@ $(document).ready(function(){
 	    return false;
 	}
 
- 	if (((req_date<start)||(req_date>end))||((req_day!=5)&&(req_day!=6)&&(req_day!=0)&&(!SpecDays(holidays, req_date)))||(SpecDays(cancelled, req_date))){
+ 	if (((req_date<today)||(req_date>end))||((req_day!=5)&&(req_day!=6)&&(req_day!=0)&&(!SpecDays(holidays, req_date)))||(SpecDays(cancelled, req_date))){
 	    $('#title4').show( "slow");	 
 	    $('input[name=Field8]:radio').attr('disabled', true);
 	    
