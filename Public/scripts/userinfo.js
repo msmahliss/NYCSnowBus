@@ -32,9 +32,8 @@ $(document).ready(function(){
     HideFields(hid_promo);
     var today = today.getFullYear() + '/' +(today.getMonth()+ 1)+ '/'+today.getDate();    
     var end = '2014/03/30';
-    var holidays = ['2013/12/23','2013/12/24','2013/12/25','2013/12/26','2013/12/30','2013/12/31','2014/01/01','2014/01/02','2014/0\
-1/20','2014/02/17','2014/02/18','2014/02/19','2014/02/20'];
-    var cancelled = ['2013/12/13','2013/12/15'];
+    var holidays = ['2013/12/23','2013/12/24','2013/12/25','2013/12/26','2013/12/30','2013/12/31','2014/01/01','2014/01/02','2014/01/20','2014/02/17','2014/02/18','2014/02/19','2014/02/20'];
+    var cancelled = ['2013/12/20', '2013/12/21','2013/12/22'];
     
     function CheckDate() {
 	var trav_m = $('#Field1-1').val();
@@ -64,10 +63,11 @@ $(document).ready(function(){
 		    if ($(this).val()>0) { $(this).remove(); }
 		})
 		    
-		    $('table').find('input').each(function() {					
-			$(this).attr('disabled', true);
-			if ($(this).val==0) {
+		    $('table').find('input').each(function() {								
+			if ($(this).val()==0) {
 			    $(this).prop('checked', true);			    			
+			} else {
+			    $(this).attr('disabled', true);
 			}
 		    }) } else {	  			      
 			$('#title4').hide( "slow");                       	    	    
@@ -105,26 +105,18 @@ $(document).ready(function(){
         var trav_m = $('#Field1-1').val();        
         var trav_d = $('#Field1-2').val();        
         var trav_y = $('#Field1').val();
-        var req_date =  (trav_y + trav_m + trav_d);
-        if (req_date==20131214){
-            WA_rem_seats=0;
-            WA_rem_equip=0;	    
-        } 
-
+        var req_date =  (trav_y + trav_m + trav_d);        
 	var dep = $('input[name=Field8]:checked').val();
+
 	if (DU_rem_seats<=0) {  
 	    $('#Field8_0').attr('disabled', true);	   
-            $('#Field8_3').attr('disabled', true);
-	    $('#Field8_0').prop('checked', false );
-	    $('#Field8_3').prop('checked', false );	  
+            $('#Field8_3').attr('disabled', true);	    	  
 	    $('label[for="Field_0"]').attr('title','Downtown pick up is sold out');
             $('label[for="Field_3"]').attr('title','Union Square pick up is sold out');
 	}
 	if (WA_rem_seats<=0) {
             $('#Field8_1').attr('disabled', true);
-            $('#Field8_2').attr('disabled', true);
-            $('#Field8_1').prop('checked', false );
-            $('#Field8_2').prop('checked', false );	  	 
+            $('#Field8_2').attr('disabled', true);            	  	 
             $('label[for="Field8_1"]').attr('title','Williamsburg pick up is sold out');
             $('label[for="Field8_2"]').attr('title','Astoria pick up is sold out');
 	}
@@ -140,7 +132,7 @@ $(document).ready(function(){
 		rem_seats=Math.max(0,WA_rem_seats);
 		rem_equip=Math.max(0,WA_rem_equip);	       
 	    }
-	    //	   console.log('rem_seats '+ rem_seats);
+	    //	    	   console.log('rem_seats '+ rem_seats);
 	    var max=0;
 	    var max_e=0;
 	    $('#Field10 option').each(function(){
@@ -150,9 +142,9 @@ $(document).ready(function(){
 		
 		$('#Field11 option').each(function(){
 		    max_e = Math.max($(this).val(), max_e);
-		    if ($(this).val()>rem_equip) { $(this).remove(); }
+		    if ($(this).val()>rem_equip) { $(this).remove();}
 		})
-
+		    
 		    var limit = Math.min(4,rem_seats);
 	    for (var i=max+1; i<=limit;i++){
 		$('#Field10').append('<option value="'+i+'">'+i+'</option>');
@@ -162,7 +154,7 @@ $(document).ready(function(){
 		$('#Field11').append('<option value="'+i+'">'+i+'</option>');
             }       
 	    
-	   var req_seats=$('#Field10').val();
+	    var req_seats=$('#Field10').val();
 	    
             $('table').find('input').each(function() {
 		if ($(this).val()>req_seats) {
@@ -176,8 +168,7 @@ $(document).ready(function(){
 		if ($(this).val()>req_seats) {		    		   
                     $('input[name="'+$(this).attr('name')+'"][value="0"]' ).prop('checked', true);		   
                 }
-            })
-		
+            })		
 		if (tot>req_seats) {
 		    $('table').find('input:checked').each(function() {
 			$('input[name="'+$(this).attr('name')+'"][value="0"]' ).prop('checked', true);
