@@ -1,4 +1,4 @@
 NYCSnowBus
 ==========
 
-NYCSnowBUs
+Back-end support for NYCSnowBus booking system.
