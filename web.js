@@ -14,8 +14,8 @@ var text = fs.readFileSync("index.html","utf-8")
 });
 
 app.get('/api/wufoo',function(inputs, response) {
-var wufoo = new Wufoo(WUFOO_DOMAIN,WUFOO_KEY);
-//var wufoo = new Wufoo('nycbeachbus','7ZRQ-QX4Y-GS5Y-8PGF');
+//var wufoo = new Wufoo(WUFOO_DOMAIN,WUFOO_KEY);
+var wufoo = new Wufoo('nycbeachbus','7ZRQ-QX4Y-GS5Y-8PGF');
 var path = 'https://nycbeachbus.wufoo.com/api/v3/reports/';
 
 //var hash = 'zsaxuro12v2avd'; //MSH report
