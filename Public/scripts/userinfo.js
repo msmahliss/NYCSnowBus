@@ -32,8 +32,8 @@ $(document).ready(function(){
     HideFields(hid_promo);
     var today = today.getFullYear() + '/' +(today.getMonth()+ 1)+ '/'+today.getDate();    
     var end = '2014/03/30';
-    var holidays = ['2013/12/30','2013/12/31','2014/01/01','2014/01/02','2014/01/20','2014/02/17','2014/02/18','2014/02/19','2014/02/20'];
-    var cancelled = ['2013/12/20','2013/12/21','2013/12/22','2013/12/23','2013/12/28','2013/12/29'];
+    var holidays = ['2014/01/20','2014/02/17','2014/02/18','2014/02/19','2014/02/20'];
+    var cancelled = ['2013/12/31'];
     
     function CheckDate() {
 	var trav_m = $('#Field1-1').val();
@@ -42,7 +42,7 @@ $(document).ready(function(){
 	if (trav_d.length==1) { trav_d='0'+trav_d;}
 	var trav_y = $('#Field1').val();
 	var req_date =  (trav_y + '/' + trav_m + '/' + trav_d);
-	var req_day = new Date(req_date).getDay()
+	var req_day = new Date(req_date).getDay();
 
 	function SpecDays(list, val) {
 	    for (var i = 0; i < list.length; i++) {
@@ -54,11 +54,9 @@ $(document).ready(function(){
  	if (((req_date<today)||(req_date>end))||((req_day!=6)&&(req_day!=0)&&(!SpecDays(holidays, req_date)))||(SpecDays(cancelled, req_date))){
 	    $('#title4').show( "slow");	 
 	    $('input[name=Field8]:radio').attr('disabled', true);
-	    
             $('#Field10 option').each(function(){               
 		if ($(this).val()>0) { $(this).remove(); }
-            })
-		
+            })		
 		$('#Field11 option').each(function(){             
 		    if ($(this).val()>0) { $(this).remove(); }
 		})
