@@ -51,7 +51,7 @@ $(document).ready(function(){
 	    return false;
 	}
 
- 	if (req_date>end)||((req_day!=6)&&(req_day!=0)&&(!SpecDays(holidays, req_date)))||(SpecDays(cancelled, req_date))){
+ 	if ((req_date>end)||((req_day!=6)&&(req_day!=0)&&(!SpecDays(holidays, req_date)))||(SpecDays(cancelled, req_date))){
 	    $('#title4').show( "slow");	 
 	    $('input[name=Field8]:radio').attr('disabled', true);
             $('#Field10 option').each(function(){               
