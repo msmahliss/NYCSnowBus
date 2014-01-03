@@ -2,6 +2,8 @@
 $(document).ready(function(){
     $('#title4').hide();
     $('#title5').hide();
+    $('#title6').hide();
+
     $('table').find('input').each(function() {      
 	if ($(this).val()!=0){	   
             $(this).attr('disabled', true);
@@ -97,20 +99,17 @@ $(document).ready(function(){
 	
 	var DU_rem_seats = 35-DU_num_booked;
 	var WA_rem_seats = 35-WA_num_booked;
+
 	var DU_rem_equip = 20-DU_num_equip;
 	var WA_rem_equip = 20-WA_num_equip;
         
-        var trav_m = $('#Field1-1').val();        
-        var trav_d = $('#Field1-2').val();        
-        var trav_y = $('#Field1').val();
-        var req_date =  (trav_y + trav_m + trav_d);        
 	var dep = $('input[name=Field8]:checked').val();
 
 	if (DU_rem_seats<=0) {  
 	    $('#Field8_0').attr('disabled', true);	   
             $('#Field8_3').attr('disabled', true);	    	  
-	    $('label[for="Field_0"]').attr('title','Downtown pick up is sold out');
-            $('label[for="Field_3"]').attr('title','Union Square pick up is sold out');
+	    $('label[for="Field8_0"]').attr('title','Downtown pick up is sold out');
+            $('label[for="Field8_3"]').attr('title','Union Square pick up is sold out');
 	}
 	if (WA_rem_seats<=0) {
             $('#Field8_1').attr('disabled', true);
@@ -130,9 +129,18 @@ $(document).ready(function(){
 		rem_seats=Math.max(0,WA_rem_seats);
 		rem_equip=Math.max(0,WA_rem_equip);	       
 	    }
-	    //	    	   console.log('rem_seats '+ rem_seats);
+//	    	   console.log('rem_seats '+ rem_seats);
+
+	    if (rem_seats<4) {
+		$('#title6').text((rem_seats+' seats left on this bus!'));
+		$('#title6').show( "slow");
+	    } else {
+		$('#title6').hide( "slow");
+	    }
+
 	    var max=0;
 	    var max_e=0;
+
 	    $('#Field10 option').each(function(){
 		max = Math.max($(this).val(), max);
 		if ($(this).val()>rem_seats) { $(this).remove(); }
@@ -286,5 +294,5 @@ $(document).ready(function(){
 
 
 $(function() {
-    $( document ).tooltip();
+    $(document).tooltip();
 });
