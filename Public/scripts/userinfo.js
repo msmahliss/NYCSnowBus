@@ -103,6 +103,18 @@ $(document).ready(function(){
 	var DU_rem_equip = 20-DU_num_equip;
 	var WA_rem_equip = 20-WA_num_equip;
         
+        var trav_m = $('#Field1-1').val();
+        if (trav_m.length==1) { trav_m='0'+trav_m;}
+        var trav_d = $('#Field1-2').val();
+        if (trav_d.length==1) { trav_d='0'+trav_d;}
+        var trav_y = $('#Field1').val();
+        var req_date =  (trav_y + trav_m + trav_d);
+	if (req_date=='20140105') {
+
+	    DU_rem_seats = 0;
+	   
+	}
+
 	var dep = $('input[name=Field8]:checked').val();
 
 	if (DU_rem_seats<=0) {  
