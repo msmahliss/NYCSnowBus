@@ -14,8 +14,9 @@ var text = fs.readFileSync("index.html","utf-8")
 });
 
 app.get('/api/wufoo',function(inputs, response) {
-var wufoo = new Wufoo(process.env.WUFOO_DOMAIN,process.env.WUFOO_KEY);
-var path = 'https://'+process.env.WUFOO_DOMAIN+'.wufoo.com/api/v3/reports/';
+var domain = process.env.WUFOO_DOMAIN
+var wufoo = new Wufoo(domain,process.env.WUFOO_KEY);
+var path = 'https://'+domain+'.wufoo.com/api/v3/reports/';
 
 //var hash = 'zsaxuro12v2avd'; //MSH report
 //var hash = 'qnckor21ndrj80'; //real form 

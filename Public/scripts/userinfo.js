@@ -1,8 +1,5 @@
 
 $(document).ready(function(){
-    $('#title4').hide();
-    $('#title5').hide();
-    $('#title6').hide();
 
     $('table').find('input').each(function() {      
 	if ($(this).val()!=0){	   
@@ -22,12 +19,12 @@ $(document).ready(function(){
 	}
     }
     
-    var hid_prc = ['299','309', '308' ,'307' ,'306' ,'305' ,'311','310'];
+    var hid_prc = ['4','5','6','299','309', '308' ,'307' ,'306' ,'305' ,'311','310'];
     for (var n=313; n<=345; n++){
 	hid_prc.push(n.toString());
     }
     var hid_ID = ['31', '44' ,'35' ,'45' ,'33' ,'46'];    
-    var hid_promo = ['350','351' ,'353' ,'354'];
+    var hid_promo = ['350','351' ,'353' ,'354', 'P'];
 
     HideFields(hid_prc);
     HideFields(hid_ID);
@@ -54,7 +51,7 @@ $(document).ready(function(){
 	}
 
  	if ((req_date>end)||((req_day!=6)&&(req_day!=0)&&(!SpecDays(holidays, req_date)))||(SpecDays(cancelled, req_date))){
-	    $('#title4').show( "slow");	 
+	    $('#foli4').show("slow");	 
 	    $('input[name=Field8]:radio').attr('disabled', true);
             $('#Field10 option').each(function(){               
 		if ($(this).val()>0) { $(this).remove(); }
@@ -70,7 +67,7 @@ $(document).ready(function(){
 			    $(this).attr('disabled', true);
 			}
 		    }) } else {	  			      
-			$('#title4').hide( "slow");                       	    	    
+			$('#foli4').hide( "slow");                       	    	    
 			GetFilters();
 		    }
     }
@@ -109,10 +106,9 @@ $(document).ready(function(){
         if (trav_d.length==1) { trav_d='0'+trav_d;}
         var trav_y = $('#Field1').val();
         var req_date =  (trav_y + trav_m + trav_d);
-	if (req_date=='20140105') {
 
-	    DU_rem_seats = 0;
-	   
+	if (req_date=='20140105') {
+	    DU_rem_seats = 0;	   
 	}
 
 	var dep = $('input[name=Field8]:checked').val();
@@ -142,12 +138,11 @@ $(document).ready(function(){
 		rem_equip=Math.max(0,WA_rem_equip);	       
 	    }
 //	    	   console.log('rem_seats '+ rem_seats);
-
 	    if (rem_seats<4) {
 		$('#title6').text((rem_seats+' seats left on this bus!'));
-		$('#title6').show( "slow");
+		$('#foli6').show( "slow");
 	    } else {
-		$('#title6').hide( "slow");
+		$('#foli6').hide( "slow");
 	    }
 
 	    var max=0;
@@ -277,6 +272,14 @@ $(document).ready(function(){
 	$(this).prop('checked',true);		  	
     }
         
+    function ShowPromo() {	
+	if ($(this).val()=='Brokelyn') {
+	    $('#foliP').show("slow");            
+	} else {
+	    $('#foliP').hide("slow");
+	}	
+    }
+
     function FmtDate(dateText, inst) {
 	var pieces = dateText.split('/');
 	$('input[name=Field1-1]').val(pieces[0]);
@@ -302,8 +305,9 @@ $(document).ready(function(){
     for (var f=0; f<table_fld.length; f++) {        
 	$('input[name="Field'+table_fld[f]+'"]:radio').change(SetTix);
     }  
-});
 
+    $('#Field347').keyup(ShowPromo);
+});
 
 $(function() {
     $(document).tooltip();
