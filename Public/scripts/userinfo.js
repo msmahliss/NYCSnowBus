@@ -32,7 +32,7 @@ $(document).ready(function(){
     var today = today.getFullYear() + '/' +(today.getMonth()+ 1)+ '/'+today.getDate();    
     var end = '2014/03/30';
     var holidays = ['2014/01/20','2014/02/17','2014/02/18','2014/02/19','2014/02/20'];
-    var cancelled = ['2013/12/31'];
+    var cancelled = ['2014/01/11'];
     
     function CheckDate() {
 	var trav_m = $('#Field1-1').val();
