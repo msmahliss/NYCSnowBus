@@ -137,7 +137,7 @@ $(document).ready(function(){
 		rem_seats=Math.max(0,WA_rem_seats);
 		rem_equip=Math.max(0,WA_rem_equip);	       
 	    }
-	    	   console.log('rem_seats '+ rem_seats);
+//	    	   console.log('rem_seats '+ rem_seats);
 	    if (rem_seats<4) {	
 		$('#title6').text((rem_seats+' seats left on this bus!'));		
 		if (rem_seats==1) {
