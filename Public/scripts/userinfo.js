@@ -107,8 +107,8 @@ $(document).ready(function(){
         var trav_y = $('#Field1').val();
         var req_date =  (trav_y + trav_m + trav_d);
 
-	if (req_date=='20140105') {
-	    DU_rem_seats = 0;	   
+	if (req_date=='20140120') {
+	    WA_rem_seats = 0;	   
 	}
 
 	var dep = $('input[name=Field8]:checked').val();
