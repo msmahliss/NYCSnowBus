@@ -19,7 +19,7 @@ $(document).ready(function(){
     HideFields(hid_ID);
     HideFields(hid_promo);
     
-    var date = new Date('2014/01/02');    
+    var date = new Date();    
     var end = new Date('2014/03/30');
     var holidays = [new Date('2014/01/20'), new Date('2014/02/17'), new Date('2014/02/18'), new Date('2014/02/19'), new Date('2014/02/20')];
     var cancelled = [new Date('2014/01/11'), new Date('2014/02/01')];
