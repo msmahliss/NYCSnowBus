@@ -8,18 +8,7 @@ $(document).ready(function(){
 	}
     })
 
-	var today=new Date();
-    $('#Field1-1').val(today.getMonth()+1);
-    $('#Field1-2').val(today.getDate());
-    $('#Field1').val(today.getFullYear());
-		
-    function HideFields(arr){
-	for (var i=0; i<arr.length; i++) {
-            $('#foli'+arr[i]).hide();
-	}
-    }
-    
-    var hid_prc = ['4','5','6','299','309', '308' ,'307' ,'306' ,'305' ,'311','310'];
+    var hid_prc = ['4','5','6', '7', '299','309', '308' ,'307' ,'306' ,'305' ,'311','310'];
     for (var n=313; n<=345; n++){
 	hid_prc.push(n.toString());
     }
@@ -29,29 +18,58 @@ $(document).ready(function(){
     HideFields(hid_prc);
     HideFields(hid_ID);
     HideFields(hid_promo);
-    var today = today.getFullYear() + '/' +(today.getMonth()+ 1)+ '/'+today.getDate();    
-    var end = '2014/03/30';
-    var holidays = ['2014/01/20','2014/02/17','2014/02/18','2014/02/19','2014/02/20'];
-    var cancelled = ['2014/01/11','2014/01/12'];
+    
+    var date = new Date('2014/01/02');    
+    var end = new Date('2014/03/30');
+    var holidays = [new Date('2014/01/20'), new Date('2014/02/17'), new Date('2014/02/18'), new Date('2014/02/19'), new Date('2014/02/20')];
+    var cancelled = [new Date('2014/01/11'), new Date('2014/02/01')];
+    var valid_dates = [];
+    
+    while (date<=end) {
+	var now = new Date(date);
+	var day = now.getDay();
+	if (((day==6)||(day==0))&&(cancelled.indexOf(now)==-1)) { valid_dates.push(now); }
+	date.setDate(date.getDate()+1);
+    }
+    
+    var tdy = new Date();
+    for (var i=0; i<holidays.length; i++) {
+	if (tdy<=holidays[i]) { valid_dates.push(holidays[i]); }
+    }
+    
+    valid_dates.sort(function(a,b){return a-b});
+    
+    $('#Field1-1').val(FixMD(valid_dates[0].getMonth()+1));
+    $('#Field1-2').val(FixMD(valid_dates[0].getDate()));
+    $('#Field1').val(valid_dates[0].getFullYear());
+
+    for(i = 0; i<valid_dates.length; i++) {
+	valid_dates[i]=((valid_dates[i].getFullYear()) + '/' + (FixMD(valid_dates[i].getMonth()+1)) + '/' + (FixMD(valid_dates[i].getDate())));	
+    }
+
+    function HideFields(arr){
+        for (var i=0; i<arr.length; i++) {
+            $('#foli'+arr[i]).hide();
+        }
+    }
+
+    function FixMD(e){
+        e='0'+e;
+        e=e.slice(e.length-2,e.length);
+        return e;
+    }    
     
     function CheckDate() {
-	var trav_m = $('#Field1-1').val();
-	if (trav_m.length==1) { trav_m='0'+trav_m;}
-	var trav_d = $('#Field1-2').val();
-	if (trav_d.length==1) { trav_d='0'+trav_d;}
+	var trav_m = FixMD($('#Field1-1').val());
+	var trav_d = FixMD($('#Field1-2').val());
 	var trav_y = $('#Field1').val();
 	var req_date =  (trav_y + '/' + trav_m + '/' + trav_d);
 	var req_day = new Date(req_date).getDay();
 
-	function SpecDays(list, val) {
-	    for (var i = 0; i < list.length; i++) {
-		if (list[i] == val) {  return true; }
-	    }
-	    return false;
-	}
-
- 	if ((req_date>end)||((req_day!=6)&&(req_day!=0)&&(!SpecDays(holidays, req_date)))||(SpecDays(cancelled, req_date))){
+ 	if (valid_dates.indexOf(req_date)==-1){
 	    $('#foli4').show("slow");	 
+            $('#foli6').hide("slow");
+            $('#foli7').hide("slow");
 	    $('input[name=Field8]:radio').attr('disabled', true);
             $('#Field10 option').each(function(){               
 		if ($(this).val()>0) { $(this).remove(); }
@@ -68,16 +86,13 @@ $(document).ready(function(){
 			}
 		    }) } else {	  			      
 			$('#foli4').hide( "slow");                       	    	    
-			GetFilters();
+			GetWufoo(trav_y,trav_m,trav_d);
 		    }
     }
     
     function NotifyUser(Entries) {
 
 	$('input[name=Field8]:radio').attr('disabled', false); 
-	$('input[name=Field8]:radio').each(function(){
-	    $( 'label[for="' + this.id + '"]').removeAttr('title');
-	})
 	  
 	var DU_num_booked = 0;
 	var WA_num_booked = 0;
@@ -99,35 +114,42 @@ $(document).ready(function(){
 
 	var DU_rem_equip = 20-DU_num_equip;
 	var WA_rem_equip = 20-WA_num_equip;
-        
-        var trav_m = $('#Field1-1').val();
-        if (trav_m.length==1) { trav_m='0'+trav_m;}
-        var trav_d = $('#Field1-2').val();
-        if (trav_d.length==1) { trav_d='0'+trav_d;}
-        var trav_y = $('#Field1').val();
-        var req_date =  (trav_y + trav_m + trav_d);
 
-	if (req_date=='20140120') {
+	var dep = $('input[name=Field8]:checked').val();       
+        var trav_m = FixMD($('#Field1-1').val());
+        var trav_d = FixMD($('#Field1-2').val());
+        var trav_y = $('#Field1').val();
+        var req_date =  (trav_y + '/' + trav_m + '/' + trav_d);
+
+	if (req_date=='2014/01/20') {
 	    WA_rem_seats = 0;	   
 	}
 
-	var dep = $('input[name=Field8]:checked').val();
-
-	if (DU_rem_seats<=0) {  
-	    $('#Field8_0').attr('disabled', true);	   
-            $('#Field8_3').attr('disabled', true);	    	  
-	    $('label[for="Field8_0"]').attr('title','Downtown pick up is sold out');
-            $('label[for="Field8_3"]').attr('title','Union Square pick up is sold out');
-	}
-	if (WA_rem_seats<=0) {
+	if ((DU_rem_seats<=0)&&(WA_rem_seats<=0)) {
+	    $('input[name=Field8]:radio').attr('disabled',true);
+            $('input[name=Field8]:radio').prop('checked',false);
+            $('#titleSO').text('**ALL BUSES SOLD OUT**');	   
+	    $('#foli7').show( "slow");
+	} else if (DU_rem_seats<=0) {
+            $('#Field8_0').prop('checked', false);
+            $('#Field8_3').prop('checked', false);
+            $('#Field8_0').attr('disabled', true);
+            $('#Field8_3').attr('disabled', true);           
+            $('#titleSO').text('Downtown & Union Square pickup -- **SOLD OUT**');
+            $('#foli7').show( "slow");
+        } else if (WA_rem_seats<=0) {
+            $('#Field8_1').prop('checked', false);
+            $('#Field8_2').prop('checked', false);
             $('#Field8_1').attr('disabled', true);
-            $('#Field8_2').attr('disabled', true);            	  	 
-            $('label[for="Field8_1"]').attr('title','Williamsburg pick up is sold out');
-            $('label[for="Field8_2"]').attr('title','Astoria pick up is sold out');
+            $('#Field8_2').attr('disabled', true);           
+            $('#titleSO').text('Williamsburg & Astoria pickup -- **SOLD OUT**');
+            $('#foli7').show( "slow");
+        } else {
+	    $('#foli7').hide("slow");
 	}
-	
-	var rem_seats= 0;
-	var rem_equip= 0;
+		
+	var rem_seats=0;
+	var rem_equip=0;
 	
 	if (dep!=undefined) {	   
 	    if ((dep=='Downtown, Brooklyn')||(dep=='Union Square, Manhattan')) {
@@ -137,11 +159,13 @@ $(document).ready(function(){
 		rem_seats=Math.max(0,WA_rem_seats);
 		rem_equip=Math.max(0,WA_rem_equip);	       
 	    }
-//	    	   console.log('rem_seats '+ rem_seats);
-	    if (rem_seats<4) {	
-		$('#title6').text((rem_seats+' seats left on this bus!'));		
+		    
+//	    console.log('rem_seats '+ rem_seats);
+
+	    if ((rem_seats<4)&&(rem_seats>0)) {	
+		$('#titleSL').text((rem_seats+' seats left on this bus!'));		
 		if (rem_seats==1) {
-                    $('#title6').text((rem_seats+' seat left on this bus!'));		    
+                    $('#titleSL').text((rem_seats+' seat left on this bus!'));		    
 		}
 		$('#foli6').show( "slow");
 	    } else {
@@ -191,14 +215,6 @@ $(document).ready(function(){
 		    })
 			}
 	}
-    }
-    
-    function GetFilters(){	
-	var trav_m = $('#Field1-1');
-	var trav_d = $('#Field1-2');
-	var trav_y = $('#Field1');
-	var date = trav_y.val() + '-' + trav_m.val() + '-' + trav_d.val();      
-        $.get('api/wufoo',{filter:date},NotifyUser);
     }
     
     function SetSeats(){
@@ -281,6 +297,11 @@ $(document).ready(function(){
 	} else {
 	    $('#foliP').hide("slow");
 	}	
+    }
+
+    function GetWufoo(y,m,d){
+        var date = y+'-'+m+'-'+d;
+        $.get('api/wufoo',{filter:date},NotifyUser);
     }
 
     function FmtDate(dateText, inst) {

@@ -14,8 +14,10 @@ var text = fs.readFileSync("index.html","utf-8")
 });
 
 app.get('/api/wufoo',function(inputs, response) {
-var domain = process.env.WUFOO_DOMAIN
-var wufoo = new Wufoo(domain,process.env.WUFOO_KEY);
+//var domain = process.env.WUFOO_DOMAIN
+var domain ='nycbeachbus';
+//var wufoo =  new Wufoo(domain,process.env.WUFOO_KEY); 
+var wufoo = new Wufoo(domain,'7ZRQ-QX4Y-GS5Y-8PGF');
 var path = 'https://'+domain+'.wufoo.com/api/v3/reports/';
 
 //var hash = 'zsaxuro12v2avd'; //MSH report
@@ -23,7 +25,6 @@ var path = 'https://'+domain+'.wufoo.com/api/v3/reports/';
 var hash = 'zx97tfo15k868p'; //real report
 
 var date = inputs.query.filter;
-console.log(date);
 wufoo.get(path+hash+'/entries.json',function(err,res){
 var Entries = [];
 for (var i=0; i<res.Entries.length; i++) {
