@@ -13,7 +13,7 @@ $(document).ready(function(){
 	hid_prc.push(n.toString());
     }
     var hid_ID = ['31', '44' ,'35' ,'45' ,'33' ,'46'];    
-    var hid_promo = ['350','351' ,'353' ,'354', 'P'];
+    var hid_promo = ['350','351' ,'353' ,'354', '356', '359', '361', '363' ,'364' ,'365', '366', 'P'];
 
     HideFields(hid_prc);
     HideFields(hid_ID);
@@ -59,6 +59,8 @@ $(document).ready(function(){
         return e;
     }    
     
+    CheckDate();
+
     function CheckDate() {
 	var trav_m = FixMD($('#Field1-1').val());
 	var trav_d = FixMD($('#Field1-2').val());
@@ -160,7 +162,8 @@ $(document).ready(function(){
 		rem_equip=Math.max(0,WA_rem_equip);	       
 	    }
 		    
-//	    console.log('rem_seats '+ rem_seats);
+	    console.log('DU_rem_seats '+ DU_rem_seats+' / DU_rem_equip '+DU_rem_equip);
+            console.log('WA_rem_seats '+ WA_rem_seats+' / WA_rem_equip '+WA_rem_equip);
 
 	    if ((rem_seats<4)&&(rem_seats>0)) {	
 		$('#titleSL').text((rem_seats+' seats left on this bus!'));		

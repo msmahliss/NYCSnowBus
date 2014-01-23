@@ -14,6 +14,8 @@ Purchase NYC Snow Bus Ticket(s)
 <!-- CSS -->
 <link href="css/structure.css" rel="stylesheet">
 <link href="css/form.css" rel="stylesheet">
+<link href="css/theme.css" rel="stylesheet">
+<link href="https://" rel="stylesheet">
 <link href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" rel="stylesheet">
 
 <!-- JavaScript -->
@@ -28,10 +30,10 @@ Purchase NYC Snow Bus Ticket(s)
 <div id="container" class="ltr">
 
 <!--h1 id="logo">
-<a href="http://www.wufoo.com" title="Powered by Wufoo">Wufoo</a>
+<a>NYC Beach Bus</a>
 </h1-->
 
-<form id="form39" name="form39" class="wufoo topLabel page hideMarkers" autocomplete="off" enctype="multipart/form-data" method="post" novalidate
+<form id="form39" name="form39" class="wufoo topLabel page hideMarkers" accept-charset="UTF-8" autocomplete="off" enctype="multipart/form-data" method="post" novalidate
       action="https://nycbeachbus.wufoo.com/forms/qnckor21ndrj80/#public">
   
 <header id="header" class="info">
@@ -47,26 +49,29 @@ Date
 <span id="req_1" class="req">*</span>
 </label>
 <span>
-<input id="Field1-1" name="Field1-1" type="text" class="field text" value="12" size="2" maxlength="2" tabindex="1" required />
+<input id="Field1-1" name="Field1-1" type="text" class="field text" value="01" size="2" maxlength="2" tabindex="1" required />
 <label for="Field1-1">MM</label>
 </span> 
 <span class="symbol">/</span>
 <span>
-<input id="Field1-2" name="Field1-2" type="text" class="field text" value="05" size="2" maxlength="2" tabindex="2" required />
+<input id="Field1-2" name="Field1-2" type="text" class="field text" value="23" size="2" maxlength="2" tabindex="2" required />
 <label for="Field1-2">DD</label>
 </span>
 <span class="symbol">/</span>
 <span>
- <input id="Field1" name="Field1" type="text" class="field text" value="2013" size="4" maxlength="4" tabindex="3" required />
+ <input id="Field1" name="Field1" type="text" class="field text" value="2014" size="4" maxlength="4" tabindex="3" required />
 <label for="Field1">YYYY</label>
 </span>
+
 
 <span id="cal1">
 <input type="hidden" id="cal">
 </span>
 
 <p class="instruct" id="instruct1"><small>Departures are Saturdays, Sundays and all holidays.</small></p>
-</li><li id="foli4" class="notranslate section      ">
+</li>
+
+<li id="foli4" class="notranslate section      ">
 <section>
 <h3 id="title4">You have picked an invalid date. Please choose a Saturday or Sunday</h3>
 </section>
@@ -78,7 +83,9 @@ Date
 Sorry, We have not perfected our time machine yet and we can not bring you back in time. Please choose a valid date.
 </h3>
 </section>
-</li><li id="foli8" class="notranslate  twoColumns     ">
+</li>
+
+<li id="foli8" class="notranslate  twoColumns     ">
 <fieldset>
 <![if !IE | (gte IE 8)]>
 <legend id="title8" class="desc">
@@ -92,7 +99,7 @@ Leaving From?
 <span id="req_8" class="req">*</span>
 </label>
 <![endif]-->
-<div name="Depart">
+<div>
 <input id="radioDefault_8" name="Field8" type="hidden" value="" />
 <span>
 <input id="Field8_0" name="Field8" type="radio" class="field radio" value="Downtown, Brooklyn" tabindex="4" required />
@@ -128,9 +135,17 @@ Union Square, Manhattan</label>
 <h3 id="titleSO" style="font-size:115%; font-weight:bold; color:red"></h3>
 </li>
 
+<li id="foli361" class="notranslate section      ">
+<section>
+<h3 id="title361">
+SOLD OUT
+</h3>
+</section>
+</li>
+
 <li id="foli10" class="notranslate       ">
 <label class="desc" id="title10" for="Field10">
-Number of people headed to the mountain (max 4 per order)?
+Number of people headed to the mountain?
 <span id="req_10" class="req">*</span>
 </label>
 <div>
@@ -153,7 +168,6 @@ Number of people headed to the mountain (max 4 per order)?
 </select>
 </div>
 </li>
-
 <li id="foli11" class="notranslate       ">
 <label class="desc" id="title11" for="Field11">
 How many people are bringing their own equipment on the bus (Snowboard or Skis)?
@@ -1572,87 +1586,135 @@ Promo Code
 <div>
 <input id="Field347" name="Field347" type="text" class="field text medium" value="" maxlength="255" tabindex="138" onkeyup="" />
 </div>
+</li><li id="foli363" class="notranslate      ">
+<fieldset>
+<![if !IE | (gte IE 8)]>
+<legend id="title363" class="desc">
+Brooklyn Boulder Discount
+</legend>
+<![endif]>
+<!--[if lt IE 8]>
+<label id="title363" class="desc">
+Brooklyn Boulder Discount
+</label>
+<![endif]-->
+<div>
+<input id="radioDefault_363" name="Field363" type="hidden" value="" />
+<span>
+<input id="Field363_0" name="Field363" type="radio" class="field radio" value="10% Discount off 1st Bus Ticket" tabindex="139" checked="checked" />
+<label class="choice" for="Field363_0" >
+10% Discount off 1st Bus Ticket</label>
+</span>
+</div>
+</fieldset>
+</li><li id="foli364" class="notranslate      ">
+<fieldset>
+<![if !IE | (gte IE 8)]>
+<legend id="title364" class="desc">
+Brooklyn Boulder Discount
+</legend>
+<![endif]>
+<!--[if lt IE 8]>
+<label id="title364" class="desc">
+Brooklyn Boulder Discount
+</label>
+<![endif]-->
+<div>
+<input id="radioDefault_364" name="Field364" type="hidden" value="" />
+<span>
+<input id="Field364_0" name="Field364" type="radio" class="field radio" value="5% Discount off 1st Bus and Lift Ticket" tabindex="140" checked="checked" />
+<label class="choice" for="Field364_0" >
+5% Discount off 1st Bus and Lift Ticket</label>
+</span>
+</div>
+</fieldset>
+</li><li id="foli365" class="notranslate      ">
+<fieldset>
+<![if !IE | (gte IE 8)]>
+<legend id="title365" class="desc">
+Brooklyn Boulder Discount
+</legend>
+<![endif]>
+<!--[if lt IE 8]>
+<label id="title365" class="desc">
+Brooklyn Boulder Discount
+</label>
+<![endif]-->
+<div>
+<input id="radioDefault_365" name="Field365" type="hidden" value="" />
+<span>
+<input id="Field365_0" name="Field365" type="radio" class="field radio" value="5% Discount 1st Bus and Equipment Ticket" tabindex="141" checked="checked" />
+<label class="choice" for="Field365_0" >
+5% Discount 1st Bus and Equipment Ticket</label>
+</span>
+</div>
+</fieldset>
+</li><li id="foli366" class="notranslate      ">
+<fieldset>
+<![if !IE | (gte IE 8)]>
+<legend id="title366" class="desc">
+Brooklyn Boulder Discount
+</legend>
+<![endif]>
+<!--[if lt IE 8]>
+<label id="title366" class="desc">
+Brooklyn Boulder Discount
+</label>
+<![endif]-->
+<div>
+<input id="radioDefault_366" name="Field366" type="hidden" value="" />
+<span>
+<input id="Field366_0" name="Field366" type="radio" class="field radio" value="5% Discount 1st Bus, Lift, and Equipment Ticket" tabindex="142" checked="checked" />
+<label class="choice" for="Field366_0" >
+5% Discount 1st Bus, Lift, and Equipment Ticket</label>
+</span>
+</div>
+</fieldset>
 </li>
-
 <li id="foliP" class="notranslate section      ">
 <section>
 <h3 id="titleP">This promo code has expired.</h3>
 </section>
 </li>
-
-<li id="foli350" class="notranslate      ">
+<li id="foli356" class="notranslate      ">
 <fieldset>
 <![if !IE | (gte IE 8)]>
-<legend id="title350" class="desc">
+<legend id="title356" class="desc">
+Brokelyn 
 </legend>
 <![endif]>
 <!--[if lt IE 8]>
-<label id="title350" class="desc">
+<label id="title356" class="desc">
+Brokelyn 
 </label>
 <![endif]-->
 <div>
-<input id="radioDefault_350" name="Field350" type="hidden" value="" />
+<input id="radioDefault_356" name="Field356" type="hidden" value="" />
 <span>
-<input id="Field350_0" name="Field350" type="radio" class="field radio" value="$5 Discount off Bus Ticket" tabindex="139" checked="checked" />
-<label class="choice" for="Field350_0" >
-$5 Discount off Bus Ticket</label>
+<input id="Field356_0" name="Field356" type="radio" class="field radio" value="This Promo has expired" tabindex="143" />
+<label class="choice" for="Field356_0" >
+This Promo has expired</label>
 </span>
 </div>
 </fieldset>
-</li><li id="foli351" class="notranslate      ">
+</li><li id="foli359" class="notranslate      ">
 <fieldset>
 <![if !IE | (gte IE 8)]>
-<legend id="title351" class="desc">
+<legend id="title359" class="desc">
+How About we 
 </legend>
 <![endif]>
 <!--[if lt IE 8]>
-<label id="title351" class="desc">
+<label id="title359" class="desc">
+How About we 
 </label>
 <![endif]-->
 <div>
-<input id="radioDefault_351" name="Field351" type="hidden" value="" />
+<input id="radioDefault_359" name="Field359" type="hidden" value="" />
 <span>
-<input id="Field351_0" name="Field351" type="radio" class="field radio" value="$7 Discount off Bus and Lift Ticket" tabindex="140" checked="checked" />
-<label class="choice" for="Field351_0" >
-$7 Discount off Bus and Lift Ticket</label>
-</span>
-</div>
-</fieldset>
-</li><li id="foli353" class="notranslate      ">
-<fieldset>
-<![if !IE | (gte IE 8)]>
-<legend id="title353" class="desc">
-</legend>
-<![endif]>
-<!--[if lt IE 8]>
-<label id="title353" class="desc">
-</label>
-<![endif]-->
-<div>
-<input id="radioDefault_353" name="Field353" type="hidden" value="" />
-<span>
-<input id="Field353_0" name="Field353" type="radio" class="field radio" value="$7 Discount Bus and Equipment Ticket" tabindex="141" checked="checked" />
-<label class="choice" for="Field353_0" >
-$7 Discount Bus and Equipment Ticket</label>
-</span>
-</div>
-</fieldset>
-</li><li id="foli354" class="notranslate      ">
-<fieldset>
-<![if !IE | (gte IE 8)]>
-<legend id="title354" class="desc">
-</legend>
-<![endif]>
-<!--[if lt IE 8]>
-<label id="title354" class="desc">
-</label>
-<![endif]-->
-<div>
-<input id="radioDefault_354" name="Field354" type="hidden" value="" />
-<span>
-<input id="Field354_0" name="Field354" type="radio" class="field radio" value="$7 Discount Bus, Lift, and Equipment Ticket" tabindex="142" checked="checked" />
-<label class="choice" for="Field354_0" >
-$7 Discount Bus, Lift, and Equipment Ticket</label>
+<input id="Field359_0" name="Field359" type="radio" class="field radio" value="$230" tabindex="144" checked="checked" />
+<label class="choice" for="Field359_0" >
+$230</label>
 </span>
 </div>
 </fieldset>
