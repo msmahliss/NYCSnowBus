@@ -161,44 +161,44 @@ $(document).ready(function(){
 		rem_seats=Math.max(0,WA_rem_seats);
 		rem_equip=Math.max(0,WA_rem_equip);	       
 	    }
-		    
-//	    console.log('DU_rem_seats '+ DU_rem_seats+' / DU_rem_equip '+DU_rem_equip);
-//            console.log('WA_rem_seats '+ WA_rem_seats+' / WA_rem_equip '+WA_rem_equip);
-
-	    if ((rem_seats<4)&&(rem_seats>0)) {	
-		$('#titleSL').text((rem_seats+' seats left on this bus!'));		
-		if (rem_seats==1) {
-                    $('#titleSL').text((rem_seats+' seat left on this bus!'));		    
-		}
-		$('#foli6').show( "slow");
-	    } else {
-		$('#foli6').hide( "slow");
+	}	    
+//	console.log('DU_rem_seats '+ DU_rem_seats+' / DU_rem_equip '+DU_rem_equip);
+//        console.log('WA_rem_seats '+ WA_rem_seats+' / WA_rem_equip '+WA_rem_equip);
+	
+	if ((rem_seats<4)&&(rem_seats>0)) {	
+	    $('#titleSL').text((rem_seats+' seats left on this bus!'));		
+	    if (rem_seats==1) {
+                $('#titleSL').text((rem_seats+' seat left on this bus!'));		    
 	    }
-
-	    var max=0;
-	    var max_e=0;
-
-	    $('#Field10 option').each(function(){
-		max = Math.max($(this).val(), max);
-		if ($(this).val()>rem_seats) { $(this).remove(); }
+	    $('#foli6').show( "slow");
+	} else {
+	    $('#foli6').hide( "slow");
+	}
+	
+	var max=0;
+	var max_e=0;
+	
+	$('#Field10 option').each(function(){
+	    max = Math.max($(this).val(), max);
+	    if ($(this).val()>rem_seats) { $(this).remove(); }
+	})
+	    
+	    $('#Field11 option').each(function(){
+		max_e = Math.max($(this).val(), max_e);
+		if ($(this).val()>rem_equip) { $(this).remove();}
 	    })
 		
-		$('#Field11 option').each(function(){
-		    max_e = Math.max($(this).val(), max_e);
-		    if ($(this).val()>rem_equip) { $(this).remove();}
-		})
-		    
-		    var limit = Math.min(4,rem_seats);
-	    for (var i=max+1; i<=limit;i++){
-		$('#Field10').append('<option value="'+i+'">'+i+'</option>');
-	    }
-            var limit_e = Math.min(4,rem_equip);
-            for (var i=max_e+1; i<=limit_e;i++){
-		$('#Field11').append('<option value="'+i+'">'+i+'</option>');
-            }       
-	    
-	    var req_seats=$('#Field10').val();
-	    
+		var limit = Math.min(4,rem_seats);
+	for (var i=max+1; i<=limit;i++){
+	    $('#Field10').append('<option value="'+i+'">'+i+'</option>');
+	}
+        var limit_e = Math.min(4,rem_equip);
+        for (var i=max_e+1; i<=limit_e;i++){
+	    $('#Field11').append('<option value="'+i+'">'+i+'</option>');
+        }       
+	
+	var req_seats=$('#Field10').val();
+	
             $('table').find('input').each(function() {
 		if ($(this).val()>req_seats) {
                     $(this).attr('disabled', true);
@@ -217,7 +217,7 @@ $(document).ready(function(){
 			$('input[name="'+$(this).attr('name')+'"][value="0"]' ).prop('checked', true);
 		    })
 			}
-	}
+	
     }
     
     function SetSeats(){
