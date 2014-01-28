@@ -123,7 +123,7 @@ $(document).ready(function(){
         var trav_y = $('#Field1').val();
         var req_date =  (trav_y + '/' + trav_m + '/' + trav_d);
 
-	if (req_date=='2014/01/20') {
+	if (req_date=='2014/02/02') {
 	    WA_rem_seats = 0;	   
 	}
 
