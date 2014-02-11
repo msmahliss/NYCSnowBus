@@ -1,6 +1,8 @@
 
 $(document).ready(function(){
 
+    var max_seats=35;
+
     $('table').find('input').each(function() {      
 	if ($(this).val()!=0){	   
             $(this).attr('disabled', true);
@@ -111,8 +113,8 @@ $(document).ready(function(){
 	    }
 	};
 	
-	var DU_rem_seats = 35-DU_num_booked;
-	var WA_rem_seats = 35-WA_num_booked;
+	var DU_rem_seats = max_seats-DU_num_booked;
+	var WA_rem_seats = max_seats-WA_num_booked;
 
 	var DU_rem_equip = 20-DU_num_equip;
 	var WA_rem_equip = 20-WA_num_equip;
@@ -122,22 +124,27 @@ $(document).ready(function(){
         var trav_d = FixMD($('#Field1-2').val());
         var trav_y = $('#Field1').val();
         var req_date =  (trav_y + '/' + trav_m + '/' + trav_d);
-
-	if (req_date=='2014/02/02') {
+	
+	if (req_date=='2014/02/17') {
 	    WA_rem_seats = 0;	   
+	} else if (req_date=='2014/02/15') {
+            DU_rem_seats = max_seats*2-DU_num_booked;
 	}
-
+	    
 	if ((DU_rem_seats<=0)&&(WA_rem_seats<=0)) {
 	    $('input[name=Field8]:radio').attr('disabled',true);
             $('input[name=Field8]:radio').prop('checked',false);
             $('#titleSO').text('**ALL BUSES SOLD OUT**');	   
 	    $('#foli7').show( "slow");
-	} else if (DU_rem_seats<=0) {
-            $('#Field8_0').prop('checked', false);
+	} else if ((req_date=='2014/02/15')&&(DU_rem_seats>0)&&(DU_rem_seats<max_seats)) {
+            $('#titleSO').html('Downtown & Union Square pickup **Bus 1 SOLD OUT**<br/>Bus 2 added by popular demand!');
+            $('#foli7').show( "slow");	   
+	} else if (DU_rem_seats<=0) {	    	  
+	    $('#Field8_0').prop('checked', false)
             $('#Field8_3').prop('checked', false);
             $('#Field8_0').attr('disabled', true);
             $('#Field8_3').attr('disabled', true);           
-            $('#titleSO').text('Downtown & Union Square pickup -- **SOLD OUT**');
+	    $('#titleSO').text('Downtown & Union Square pickup -- **SOLD OUT**');	    	    
             $('#foli7').show( "slow");
         } else if (WA_rem_seats<=0) {
             $('#Field8_1').prop('checked', false);
@@ -162,8 +169,8 @@ $(document).ready(function(){
 		rem_equip=Math.max(0,WA_rem_equip);	       
 	    }
 	}	    
-//	console.log('DU_rem_seats '+ DU_rem_seats+' / DU_rem_equip '+DU_rem_equip);
-//        console.log('WA_rem_seats '+ WA_rem_seats+' / WA_rem_equip '+WA_rem_equip);
+	console.log('DU_rem_seats '+ DU_rem_seats+' / DU_rem_equip '+DU_rem_equip);
+        console.log('WA_rem_seats '+ WA_rem_seats+' / WA_rem_equip '+WA_rem_equip);
 	
 	if ((rem_seats<4)&&(rem_seats>0)) {	
 	    $('#titleSL').text((rem_seats+' seats left on this bus!'));		

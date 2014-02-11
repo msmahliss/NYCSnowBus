@@ -15,7 +15,9 @@ var text = fs.readFileSync("index.html","utf-8")
 
 app.get('/api/wufoo',function(inputs, response) {
 var domain = process.env.WUFOO_DOMAIN;
+
 var wufoo = new Wufoo(domain,process.env.WUFOO_KEY);
+
 var path = 'https://'+domain+'.wufoo.com/api/v3/reports/';
 //var hash = 'qnckor21ndrj80'; //real form 
 var hash = 'zx97tfo15k868p'; //real report
