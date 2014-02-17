@@ -169,8 +169,8 @@ $(document).ready(function(){
 		rem_equip=Math.max(0,WA_rem_equip);	       
 	    }
 	}	    
-	console.log('DU_rem_seats '+ DU_rem_seats+' / DU_rem_equip '+DU_rem_equip);
-        console.log('WA_rem_seats '+ WA_rem_seats+' / WA_rem_equip '+WA_rem_equip);
+	// console.log('DU_rem_seats '+ DU_rem_seats+' / DU_rem_equip '+DU_rem_equip);
+        // console.log('WA_rem_seats '+ WA_rem_seats+' / WA_rem_equip '+WA_rem_equip);
 	
 	if ((rem_seats<4)&&(rem_seats>0)) {	
 	    $('#titleSL').text((rem_seats+' seats left on this bus!'));		
