@@ -2,6 +2,7 @@
 $(document).ready(function(){
 
     var max_seats=35;
+    var max_equip=20;
 
     $('table').find('input').each(function() {      
 	if ($(this).val()!=0){	   
@@ -116,8 +117,8 @@ $(document).ready(function(){
 	var DU_rem_seats = max_seats-DU_num_booked;
 	var WA_rem_seats = max_seats-WA_num_booked;
 
-	var DU_rem_equip = 20-DU_num_equip;
-	var WA_rem_equip = 20-WA_num_equip;
+	var DU_rem_equip = max_equip-DU_num_equip;
+	var WA_rem_equip = max_equip-WA_num_equip;
 
 	var dep = $('input[name=Field8]:checked').val();       
         var trav_m = FixMD($('#Field1-1').val());
@@ -127,7 +128,7 @@ $(document).ready(function(){
 	
 	if (req_date=='2014/02/17') {
 	    WA_rem_seats = 0;	   
-	} else if (req_date=='2014/02/15') {
+	} else if (req_date=='2014/02/22') {
             DU_rem_seats = max_seats*2-DU_num_booked;
 	}
 	    
@@ -136,7 +137,7 @@ $(document).ready(function(){
             $('input[name=Field8]:radio').prop('checked',false);
             $('#titleSO').text('**ALL BUSES SOLD OUT**');	   
 	    $('#foli7').show( "slow");
-	} else if ((req_date=='2014/02/15')&&(DU_rem_seats>0)&&(DU_rem_seats<max_seats)) {
+	} else if ((req_date=='2014/02/22')&&(DU_rem_seats>0)&&(DU_rem_seats<max_seats)) {
             $('#titleSO').html('Downtown & Union Square pickup **Bus 1 SOLD OUT**<br/>Bus 2 added by popular demand!');
             $('#foli7').show( "slow");	   
 	} else if (DU_rem_seats<=0) {	    	  
