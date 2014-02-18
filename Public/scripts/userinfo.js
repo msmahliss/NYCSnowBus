@@ -137,7 +137,7 @@ $(document).ready(function(){
             $('input[name=Field8]:radio').prop('checked',false);
             $('#titleSO').text('**ALL BUSES SOLD OUT**');	   
 	    $('#foli7').show( "slow");
-	} else if ((req_date=='2014/02/22')&&(DU_rem_seats>0)&&(DU_rem_seats<max_seats)) {
+	} else if ((req_date=='2014/02/22')&&(DU_rem_seats>0)&&(DU_rem_seats<=max_seats)) {
             $('#titleSO').html('Downtown & Union Square pickup **Bus 1 SOLD OUT**<br/>Bus 2 added by popular demand!');
             $('#foli7').show( "slow");	   
 	} else if (DU_rem_seats<=0) {	    	  
