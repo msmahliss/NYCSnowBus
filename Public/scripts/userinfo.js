@@ -23,9 +23,9 @@ $(document).ready(function(){
     HideFields(hid_promo);
     
     var date = new Date();    
-    var end = new Date('2014/03/30');
-    var holidays = [new Date('2014/01/20')];
-    var cancelled = [new Date('2014/01/11'), new Date('2014/02/01')];
+    var end = new Date('2014/03/17');
+    var holidays = [];
+    var cancelled = [];
     var valid_dates = [];
     
     while (date<=end) {
@@ -126,7 +126,7 @@ $(document).ready(function(){
         var trav_y = $('#Field1').val();
         var req_date =  (trav_y + '/' + trav_m + '/' + trav_d);
 	
-	if (req_date=='2014/02/17') {
+	if (req_date=='2014/03/16') {
 	    WA_rem_seats = 0;	   
 	} else if (req_date=='2014/02/22') {
             DU_rem_seats = max_seats*2-DU_num_booked;
